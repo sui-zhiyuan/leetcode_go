@@ -1,4 +1,4 @@
-package solve1
+package p0001_two_sum
 
 func twoSum(nums []int, target int) []int {
 	data := make([][2]int, 0, len(nums))

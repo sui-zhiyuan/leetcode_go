@@ -1,4 +1,4 @@
-package solve1
+package p0002_add_two_numbers
 
 import (
 	"github.com/stretchr/testify/assert"

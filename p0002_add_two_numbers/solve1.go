@@ -1,4 +1,4 @@
-package solve1
+package p0002_add_two_numbers
 
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	upper := 0

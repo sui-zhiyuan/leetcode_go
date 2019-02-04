@@ -1,4 +1,4 @@
-package solve1
+package p0001_two_sum
 
 import (
 	"github.com/stretchr/testify/assert"
