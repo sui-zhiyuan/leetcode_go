@@ -1,10 +1,17 @@
-package p0002_add_two_numbers
+package s01
+
+import (
+	"github.com/sui-zhiyuan/leetcode_go/p0002"
+)
+
+// ListNode ...
+type ListNode = p0002.ListNode
 
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	upper := 0
 	result := new(ListNode)
 	k := result
-	for i, j := l1, l2; i != nil || j != nil;  {
+	for i, j := l1, l2; i != nil || j != nil; {
 		k.Next = new(ListNode)
 		k = k.Next
 		v := upper

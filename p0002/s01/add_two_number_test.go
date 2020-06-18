@@ -1,8 +1,10 @@
-package p0002_add_two_numbers
+package s01
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/sui-zhiyuan/leetcode_go/p0002"
 )
 
 func Test_addTwoNumbers(t *testing.T) {
@@ -14,15 +16,15 @@ func Test_addTwoNumbers(t *testing.T) {
 	}{
 		{
 			name:   "case 1",
-			l1:     newListNode(342),
-			l2:     newListNode(465),
-			result: newListNode(807),
+			l1:     p0002.NewListNode(342),
+			l2:     p0002.NewListNode(465),
+			result: p0002.NewListNode(807),
 		},
 		{
 			name:   "case 2",
-			l1:     newListNode(81),
-			l2:     newListNode(0),
-			result: newListNode(81),
+			l1:     p0002.NewListNode(81),
+			l2:     p0002.NewListNode(0),
+			result: p0002.NewListNode(81),
 		},
 	}
 
