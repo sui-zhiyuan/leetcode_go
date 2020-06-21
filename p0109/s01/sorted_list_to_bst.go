@@ -1,14 +1,12 @@
 package s01
 
-import (
-	"github.com/sui-zhiyuan/leetcode_go/p0109"
-)
+import "github.com/sui-zhiyuan/leetcode_go/define"
 
 // ListNode ...
-type ListNode = p0109.ListNode
+type ListNode = define.ListNode
 
 // TreeNode ...
-type TreeNode = p0109.TreeNode
+type TreeNode = define.TreeNode
 
 func sortedListToBST(head *ListNode) *TreeNode {
 	if head == nil {

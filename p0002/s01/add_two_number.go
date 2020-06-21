@@ -1,11 +1,9 @@
 package s01
 
-import (
-	"github.com/sui-zhiyuan/leetcode_go/p0002"
-)
+import "github.com/sui-zhiyuan/leetcode_go/define"
 
 // ListNode ...
-type ListNode = p0002.ListNode
+type ListNode = define.ListNode
 
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	upper := 0

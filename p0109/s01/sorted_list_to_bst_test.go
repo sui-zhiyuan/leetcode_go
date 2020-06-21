@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/sui-zhiyuan/leetcode_go/p0109"
+	"github.com/sui-zhiyuan/leetcode_go/define"
 )
 
 func TestSortedListToBST(t *testing.T) {
@@ -15,8 +15,8 @@ func TestSortedListToBST(t *testing.T) {
 	}{
 		{
 			name: "case 1",
-			list: p0109.NewList([]int{-10, -3, 0, 5, 9}),
-			tree: p0109.NewTree([]int{0, -3, 9, -10, p0109.Null, 5}),
+			list: define.NewList([]int{-10, -3, 0, 5, 9}),
+			tree: define.NewTree([]int{0, -3, 9, -10, define.Null, 5}),
 		},
 	}
 

@@ -1,35 +1,12 @@
-package p0109
+package define
 
-import (
-	"math"
-)
-
-// ListNode ...
-type ListNode struct {
-	Val  int
-	Next *ListNode
-}
+import "math"
 
 // TreeNode ...
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
 	Right *TreeNode
-}
-
-// NewList ...
-func NewList(values []int) *ListNode {
-	head := &ListNode{}
-	curr := head
-
-	for _, v := range values {
-		next := &ListNode{
-			Val: v,
-		}
-		curr.Next = next
-		curr = next
-	}
-	return head.Next
 }
 
 // Null ,  null while creating tree

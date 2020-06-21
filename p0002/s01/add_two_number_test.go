@@ -3,9 +3,14 @@ package s01
 import (
 	"testing"
 
+	"github.com/sui-zhiyuan/leetcode_go/define"
+
 	"github.com/stretchr/testify/assert"
-	"github.com/sui-zhiyuan/leetcode_go/p0002"
 )
+
+func NewList(int) {
+
+}
 
 func Test_addTwoNumbers(t *testing.T) {
 	testTable := []struct {
@@ -16,15 +21,15 @@ func Test_addTwoNumbers(t *testing.T) {
 	}{
 		{
 			name:   "case 1",
-			l1:     p0002.NewListNode(342),
-			l2:     p0002.NewListNode(465),
-			result: p0002.NewListNode(807),
+			l1:     define.NewListByDecimal(342),
+			l2:     define.NewListByDecimal(465),
+			result: define.NewListByDecimal(807),
 		},
 		{
 			name:   "case 2",
-			l1:     p0002.NewListNode(81),
-			l2:     p0002.NewListNode(0),
-			result: p0002.NewListNode(81),
+			l1:     define.NewListByDecimal(81),
+			l2:     define.NewListByDecimal(0),
+			result: define.NewListByDecimal(81),
 		},
 	}
 
