@@ -1,6 +1,10 @@
 package define
 
-import "math"
+import (
+	"fmt"
+	"math"
+	"strings"
+)
 
 // TreeNode ...
 type TreeNode struct {
@@ -34,4 +38,23 @@ func NewTree(values []int) *TreeNode {
 		}
 	}
 	return nodes[0]
+}
+
+// PrintTree ...
+func PrintTree(root *TreeNode) string {
+	sb := &strings.Builder{}
+	sb.WriteString("[")
+	printTree(root, sb)
+	sb.WriteString("]")
+	return sb.String()
+}
+
+func printTree(root *TreeNode, sb *strings.Builder) {
+	if root == nil {
+		sb.WriteString("nil,")
+		return
+	}
+	sb.WriteString(fmt.Sprintf("%d,", root.Val))
+	printTree(root.Left, sb)
+	printTree(root.Right, sb)
 }
