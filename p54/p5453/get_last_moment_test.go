@@ -1,6 +1,8 @@
 package p5453
 
-import "testing"
+import (
+	"testing"
+)
 
 func Test_getLastMoment(t *testing.T) {
 	type args struct {
@@ -27,7 +29,7 @@ func Test_getLastMoment(t *testing.T) {
 			args: args{
 				n:     7,
 				left:  []int{},
-				right: []int{0,1,2,3,4,5,6,7},
+				right: []int{0, 1, 2, 3, 4, 5, 6, 7},
 			},
 			want: 7,
 		},
