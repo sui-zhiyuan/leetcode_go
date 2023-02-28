@@ -13,8 +13,8 @@ func TestFind(t *testing.T) {
 		want int
 	}{
 		{
-			name :"case 1"
-			args:{}
+			name: "case 1",
+			args: args{},
 		},
 	}
 	for _, tt := range tests {

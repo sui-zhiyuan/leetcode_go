@@ -11,10 +11,9 @@ func maxProfit(values []int) int {
 	minValue := values[0]
 	minLoc := 0
 
-	profit := 0
 	for i := 1; i < length; i++ {
 		for j := 1; j <= times; j++ {
-			maxProfit[i][j] = max(maxProfit[i][j-1], maxProfit[i-1][j], maxProfit[minloc][j-1]+values[i]-minValue)
+			maxProfit[i][j] = max(maxProfit[i][j-1], maxProfit[i-1][j], maxProfit[minLoc][j-1]+values[i]-minValue)
 
 		}
 		if values[i] < minValue {
@@ -24,16 +23,6 @@ func maxProfit(values []int) int {
 	}
 
 	return maxProfit[length][times]
-}
-
-func min(t ...int) int {
-	result := t[0]
-	for _, v := range t[1:] {
-		if result > v {
-			result = v
-		}
-	}
-	return result
 }
 
 func max(t ...int) int {
