@@ -1,2 +1,2 @@
-mod common;
-mod l08;
+pub mod common;
+pub mod l08;
