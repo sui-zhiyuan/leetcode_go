@@ -1,5 +1,5 @@
-p00-p15 std problems
+./[language]/l00-l15 LeetCode std problems
 
-p_interview from `程序员面试金典` problem starts with `面试题`
+./[language]/l_interview from `程序员面试金典` problem starts with `面试题`
 
-p_offer from `剑指 Offer` problem starts with `剑指 Offer`
+./[language]/l_offer from `剑指 Offer` problem starts with `剑指 Offer`
