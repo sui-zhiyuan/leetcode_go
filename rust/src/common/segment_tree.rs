@@ -1,4 +1,4 @@
-use std::mem;
+use std::fmt::Debug;
 
 pub struct SegmentTree<T, F> {
     tree: Vec<T>,
@@ -12,7 +12,7 @@ pub struct SegmentTree<T, F> {
 impl<T, F> SegmentTree<T, F>
 where
     F: Fn(T, T) -> T,
-    T: Default + Copy + Eq,
+    T: Default + Copy,
 {
     pub fn new(data: Vec<T>, merge: F) -> Self {
         let (n_tree, deep, first_leaf) = Self::pre_calculate(data.len());
@@ -24,22 +24,6 @@ where
         };
         tree.input(data);
         tree.build();
-        tree
-    }
-
-    pub fn new_empty(size: usize, merge: F) -> Self {
-        let need_build = merge(T::default(), T::default()) == T::default();
-        let (n_tree, deep, first_leaf) = Self::pre_calculate(size);
-        let mut tree = SegmentTree {
-            tree: vec![T::default(); n_tree],
-            merge,
-            deep,
-            first_leaf,
-        };
-
-        if need_build {
-            tree.build();
-        }
         tree
     }
 
@@ -59,14 +43,13 @@ where
         }
     }
 
-    pub fn value(&self, i: usize) -> &T {
-        assert!(i < self.len());
-        &self.tree[self.node(i)]
+    pub fn set_value(&mut self, i: usize, value: T) {
+        self.change_value(i, |v| *v = value);
     }
 
-    pub fn set_value(&mut self, i: usize, value: T) {
+    pub fn change_value(&mut self, i: usize, mut f: impl FnMut(&mut T)) {
         let mut node = self.node(i);
-        self.tree[node] = value;
+        f(&mut self.tree[node]);
         while node > 0 {
             node = self.parent(node);
             let left = self.left_child(node);
@@ -95,6 +78,28 @@ where
     }
 }
 
+impl<T, F> SegmentTree<T, F>
+where
+    F: Fn(T, T) -> T,
+    T: Default + Copy + Eq,
+{
+    pub fn new_empty(size: usize, merge: F) -> Self {
+        let need_build = merge(T::default(), T::default()) == T::default();
+        let (n_tree, deep, first_leaf) = Self::pre_calculate(size);
+        let mut tree = SegmentTree {
+            tree: vec![T::default(); n_tree],
+            merge,
+            deep,
+            first_leaf,
+        };
+
+        if need_build {
+            tree.build();
+        }
+        tree
+    }
+}
+
 impl<T, F> SegmentTree<T, F> {
     // data count
     pub fn len(&self) -> usize {
@@ -103,6 +108,11 @@ impl<T, F> SegmentTree<T, F> {
 
     pub fn is_empty(&self) -> bool {
         self.tree.is_empty()
+    }
+
+    pub fn value(&self, i: usize) -> &T {
+        assert!(i < self.len());
+        &self.tree[self.node(i)]
     }
 
     // For complete binary tree
@@ -115,7 +125,7 @@ impl<T, F> SegmentTree<T, F> {
 
         let n_tree = 2 * n - 1;
         // floor(log2(n-1)) +2
-        let deep = mem::size_of::<usize>() * 8 - (n - 1).leading_zeros() as usize + 1;
+        let deep = std::mem::size_of::<usize>() * 8 - (n - 1).leading_zeros() as usize + 1;
         // fist leaf of last level
         let first_leaf = (1 << (deep - 1)) - 1;
         (n_tree, deep, first_leaf)
@@ -167,7 +177,7 @@ impl<T, F> SegmentTree<T, F> {
 
     fn range_index(&self, node: usize) -> (usize, usize) {
         // floor(log2(node +1)) 0 based depth
-        let c_deep = mem::size_of::<usize>() * 8 - (node + 1).leading_zeros() as usize - 1;
+        let c_deep = std::mem::size_of::<usize>() * 8 - (node + 1).leading_zeros() as usize - 1;
         let mut change = self.deep - 1 - c_deep;
         if change == 0 {
             return (node, node + 1);
@@ -191,6 +201,23 @@ impl<T, F> SegmentTree<T, F> {
     }
 }
 
+// debug and test
+
+impl<T, F> Debug for SegmentTree<T, F>
+where
+    T: Debug,
+{
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let mut result = f.debug_struct("SegmentTree");
+        result.field("tree", &self.tree);
+        let data = (0..self.len())
+            .map(|i| (i, self.value(i)))
+            .collect::<Vec<_>>();
+        result.field("data", &data);
+        result.finish()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use std::ops::Add;
@@ -205,12 +232,12 @@ mod tests {
         let mut st = SegmentTree::new(input.clone(), Add::add);
         assert_eq!(100, st.len());
         assert_eq!(199, st.tree.len());
-        assert_eq!(5050 , st.range(0, 100));
-        assert_eq!(355 , st.range(30, 40));
+        assert_eq!(5050, st.range(0, 100));
+        assert_eq!(355, st.range(30, 40));
 
         st.set_value(30, 41);
-        assert_eq!(5060 , st.range(0, 100));
-        assert_eq!(365 , st.range(30, 40));
+        assert_eq!(5060, st.range(0, 100));
+        assert_eq!(365, st.range(30, 40));
     }
 
     #[test]
