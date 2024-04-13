@@ -1,5 +1,7 @@
-pub mod link_binary_tree;
-pub mod segment_tree;
+mod flyweight;
+mod link_binary_tree;
+mod segment_tree;
 
-pub type TreeNode<T> = link_binary_tree::TreeNode<T>;
-pub type SegmentTree<T, F> = segment_tree::SegmentTree<T, F>;
+pub use flyweight::Flyweight;
+pub use link_binary_tree::TreeNode;
+pub use segment_tree::SegmentTree;

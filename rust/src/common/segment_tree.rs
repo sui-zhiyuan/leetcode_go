@@ -1,4 +1,4 @@
-use std::fmt::Debug;
+use std::mem;
 
 pub struct SegmentTree<T, F> {
     tree: Vec<T>,
@@ -125,7 +125,7 @@ impl<T, F> SegmentTree<T, F> {
 
         let n_tree = 2 * n - 1;
         // floor(log2(n-1)) +2
-        let deep = std::mem::size_of::<usize>() * 8 - (n - 1).leading_zeros() as usize + 1;
+        let deep = mem::size_of::<usize>() * 8 - (n - 1).leading_zeros() as usize + 1;
         // fist leaf of last level
         let first_leaf = (1 << (deep - 1)) - 1;
         (n_tree, deep, first_leaf)
@@ -177,7 +177,7 @@ impl<T, F> SegmentTree<T, F> {
 
     fn range_index(&self, node: usize) -> (usize, usize) {
         // floor(log2(node +1)) 0 based depth
-        let c_deep = std::mem::size_of::<usize>() * 8 - (node + 1).leading_zeros() as usize - 1;
+        let c_deep = mem::size_of::<usize>() * 8 - (node + 1).leading_zeros() as usize - 1;
         let mut change = self.deep - 1 - c_deep;
         if change == 0 {
             return (node, node + 1);
@@ -202,12 +202,13 @@ impl<T, F> SegmentTree<T, F> {
 }
 
 // debug and test
+use std::fmt::{Debug, Formatter, Result};
 
 impl<T, F> Debug for SegmentTree<T, F>
 where
     T: Debug,
 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         let mut result = f.debug_struct("SegmentTree");
         result.field("tree", &self.tree);
         let data = (0..self.len())

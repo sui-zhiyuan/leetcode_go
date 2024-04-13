@@ -3,7 +3,7 @@ use std::{
     collections::{BTreeSet, HashMap},
 };
 
-type SegmentTree<T, F> = crate::common::SegmentTree<T, F>;
+use crate::common::SegmentTree;
 
 impl Solution {
     pub fn rectangle_area(rectangles: Vec<Vec<i32>>) -> i32 {
