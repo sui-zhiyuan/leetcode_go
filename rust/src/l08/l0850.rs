@@ -137,7 +137,7 @@ fn merge_line(l1: Line, l2: Line) -> Line {
     }
 }
 
-pub struct Solution();
+pub struct Solution;
 
 #[cfg(test)]
 mod tests {

@@ -1,5 +1,4 @@
 use std::{cell::RefCell, mem, ops::Deref, rc::Rc};
-use crate::common; 
 
 impl Solution {
     pub fn prune_tree(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {
@@ -24,8 +23,9 @@ impl Solution {
     }
 }
 
-pub struct Solution();
+pub struct Solution;
 
+use crate::common; 
 type TreeNode = common::TreeNode<i32>;
 
 #[cfg(test)]

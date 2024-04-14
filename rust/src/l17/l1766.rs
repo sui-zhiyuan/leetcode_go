@@ -103,7 +103,7 @@ fn gcd(a: usize, b: usize) -> usize {
     a
 }
 
-pub struct Solution();
+pub struct Solution;
 
 #[cfg(test)]
 mod tests {
