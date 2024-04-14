@@ -21,7 +21,7 @@ if not file.exists():
 text = file.read_text()
 
 # remove content after "pub struct Solution();"
-solution_index = text.find("pub struct Solution();")
+solution_index = text.find("pub struct Solution;")
 if solution_index < 0:
     raise Exception("Solution struct not found in ", file)
 text = text[0:solution_index]
