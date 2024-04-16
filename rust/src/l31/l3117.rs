@@ -93,7 +93,7 @@ impl Solution {
                 }
             }
             dbg!(ans);
-            return ans;
+            ans
         } else {
             dbg!("right" ,&nums[right_stat..right_end], and_value[and_value.len() - 1]);
             let mut ans = i32::MAX;
@@ -104,7 +104,7 @@ impl Solution {
                 }
             }
             dbg!(ans);
-            return ans;
+            ans
         }
     }
 }
