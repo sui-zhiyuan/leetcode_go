@@ -39,6 +39,7 @@ class Replacement:
 replacements = [
     Replacement("use crate::common::SegmentTree;", "segment_tree.rs"),
     Replacement("use crate::common::Flyweight;", "flyweight.rs"),
+    Replacement("use crate::common::DisjointSet;", "disjoin_set.rs"),
 ]
 
 for r in replacements:
@@ -50,7 +51,6 @@ for r in replacements:
     seg_index = seg_text.find("// debug and test")
     if seg_index >= 0:
         seg_text = seg_text[0:seg_index]
-    # seg_text = seg_text.removeprefix("use std::fmt::Debug;")
     while seg_text.startswith("\n"):
         seg_text = seg_text.removeprefix("\n")
     while seg_text.endswith("\n"):

@@ -1,9 +1,16 @@
-use std::collections::HashMap;
+use std::ops::Add;
+
+use crate::common::DisjointSet;
 
 impl Solution {
     pub fn min_malware_spread(graph: Vec<Vec<i32>>, initial: Vec<i32>) -> i32 {
         let n = graph.len();
-        let mut dsu = DisjointSet::new(n);
+        let mut effected = vec![0; n];
+        for i in initial.iter() {
+            effected[(*i) as usize] = 1;
+        }
+
+        let mut dsu = DisjointSet::new(&effected, <i32 as Add>::add);
         for (i, row) in graph.iter().enumerate() {
             for (j, &cell) in row.iter().enumerate().take(i) {
                 if cell == 1 {
@@ -12,113 +19,23 @@ impl Solution {
             }
         }
 
-        let init_effect = initial
-            .iter()
-            .copied()
-            .map(|v| {
-                let v: usize = v.try_into().unwrap();
-                (v, dsu.find(v), dsu.size(v))
-            })
-            .collect::<Vec<_>>();
-
-        let root_effect = init_effect
-            .iter()
-            .fold(HashMap::new(), |mut map, (_, root, _)| {
-                *map.entry(root).or_insert(0) += 1;
-                map
-            });
-
+        let mut initial = initial;
+        initial.sort_unstable();
         let mut effect = 0;
-        let mut result: usize = initial[0].try_into().unwrap();
-        for &(node, root, size) in init_effect.iter() {
-            let size = match root_effect.get(&root).unwrap() {
-                0 => unreachable!(),
-                1 => size,
-                _ => 0,
+        let mut result = initial[0];
+        for i in initial {
+            let size = if dsu.value(i.try_into().unwrap()) >= 2 {
+                0
+            } else {
+                dsu.size(i.try_into().unwrap())
             };
-
-            if size > effect || (size == effect && node < result) {
+            if size > effect {
                 effect = size;
-                result = node;
+                result = i;
             }
         }
 
-        result.try_into().unwrap()
-    }
-}
-
-#[derive(Debug)]
-struct DisjointSet {
-    nodes: Vec<Node>,
-}
-
-impl DisjointSet {
-    fn new(count: usize) -> Self {
-        Self {
-            nodes: vec![Node::Root { size: 1 }; count],
-        }
-    }
-
-    fn find(&mut self, node: usize) -> usize {
-        let mut path = Vec::new();
-        let mut node = node;
-        while let Node::Child { parent } = self.nodes[node] {
-            path.push(node);
-            node = parent;
-        }
-        for child in path {
-            self.nodes[child] = Node::Child { parent: node };
-        }
-        node
-    }
-
-    fn union(&mut self, left: usize, right: usize) {
-        let left = self.find(left);
-        let right = self.find(right);
-        if left == right {
-            return;
-        }
-
-        let left_count = self.nodes[left].count();
-
-        let right_count = self.nodes[right].count();
-
-        if left_count < right_count {
-            self.nodes[left] = Node::Child { parent: right };
-            self.nodes[right] = Node::Root {
-                size: left_count + right_count,
-            };
-        } else {
-            self.nodes[right] = Node::Child { parent: left };
-            self.nodes[left] = Node::Root {
-                size: left_count + right_count,
-            };
-        }
-    }
-
-    // fn same(&mut self, left: usize, right: usize) -> bool {
-    //     self.find(left) == self.find(right)
-    // }
-
-    fn size(&mut self, node: usize) -> usize {
-        let root = self.find(node);
-        self.nodes[root].count()
-    }
-}
-
-#[derive(Clone, Copy, Debug)]
-enum Node {
-    Root { size: usize },
-    Child { parent: usize },
-}
-
-impl Node {
-    /// count should not be called for non-root nodes
-    fn count(&self) -> usize {
-        match self {
-            Node::Root { size } => *size,
-            _ => unreachable!(),
-        }
+        result
     }
 }
 
