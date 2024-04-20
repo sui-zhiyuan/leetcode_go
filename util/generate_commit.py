@@ -20,12 +20,32 @@ if not file.exists():
 
 text = file.read_text()
 
-# remove content after "pub struct Solution;"
-solution_index = text.find("pub struct Solution;")
+# remove debug and test codes
+solution_index = text.find("\n// debug and test")
 if solution_index < 0:
-    raise Exception("Solution struct not found in ", file)
-text = text[0:solution_index]
+    solution_index = text.find("\nimpl Debug for")
+if solution_index < 0:
+    solution_index = text.find("\n#[cfg(test)]")
+if solution_index >= 0:
+    text = text[0:solution_index]
 
+first_fn_start = text.find("pub fn ")
+if first_fn_start < 0:
+    raise Exception("no function found")
+first_fn_end = text.find("\n}", first_fn_start)
+if first_fn_end < 0:
+    raise Exception("no function end found")
+first_fn_end += 2
+prefix = text[0:first_fn_start]
+middle = text[first_fn_start:first_fn_end]
+suffix = text[first_fn_end:]
+text = (
+    prefix
+    + "impl Solution {\n"
+    + "".join(["    " + v for v in middle.splitlines(True)])
+    + "\n}"
+    + suffix
+)
 
 class Replacement:
     placeholder = ""
@@ -34,7 +54,6 @@ class Replacement:
     def __init__(self, placeholder, file_name):
         self.placeholder = placeholder
         self.file_name = file_name
-
 
 replacements = [
     Replacement("use crate::common::SegmentTree;", "segment_tree.rs"),
@@ -67,4 +86,4 @@ for r in replacements:
 
     text = text.replace(r.placeholder, seg_text)
 
-print(text)
+print(text, end="")

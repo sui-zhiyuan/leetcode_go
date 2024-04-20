@@ -35,8 +35,8 @@ fn search(state: &[Node], result: &mut Vec<Vec<i32>>, start: usize, curr: usize,
             break;
         }
         search(state, result, start, curr - v.value , v.value);
-        for j in start..(start + v.count) {
-            result[j].push(v.value.try_into().unwrap());
+        for rl in result[start..(start + v.count)].iter_mut() {
+            rl.push(v.value.try_into().unwrap());
         }
         start += v.count;
 
@@ -56,8 +56,6 @@ pub struct Prev {
     count: usize,
     value: usize,
 }
-
-// Debug and tests
 
 #[cfg(test)]
 mod tests {
