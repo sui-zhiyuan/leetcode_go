@@ -4,6 +4,7 @@
 import sys
 import pathlib
 import os
+import re
 
 curr = os.path.abspath(__file__)
 root = pathlib.Path(curr).parent.parent.resolve()
@@ -19,6 +20,12 @@ if not file.exists():
     raise Exception("file does not exist", file)
 
 text = file.read_text()
+
+placeholder = ["type TreeNode = crate::common::TreeNode<[fiu]([0-9]+|size)>;\n"]
+for r in placeholder:
+    m = re.search(r, text)
+    if m:
+        text = text.replace(m.group(0), "")
 
 # remove debug and test codes
 solution_index = text.find("\n// debug and test")
