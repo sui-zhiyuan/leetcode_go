@@ -15,8 +15,8 @@ pub fn max_satisfied(customers: Vec<i32>, grumpy: Vec<i32>, minutes: i32) -> i32
 
     let minutes = usize::try_from(minutes).unwrap();
     let mut satisfied = 0;
-    for i in 0..minutes {
-        satisfied += angry[i];
+    for &item in angry.iter().take(minutes) {
+        satisfied += item;
     }
 
     let mut max_satisfied = satisfied;
