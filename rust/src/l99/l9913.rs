@@ -49,7 +49,6 @@ const MODE: i32 = 1000000007;
 
 struct Grid {
     value: Vec<i32>,
-    zero: usize,
     one: usize,
 }
 
@@ -57,7 +56,6 @@ impl Grid {
     fn new(zero: usize, one: usize) -> Self {
         Self {
             value: vec![0; (zero + 1) * (one + 1) * 2],
-            zero:zero+1,
             one:one+1,
         }
     }

@@ -18,13 +18,11 @@ pub fn can_make_square(grid: Vec<Vec<char>>) -> bool {
         }
     }
 
-    return  false;
+    false
 }
 
 #[cfg(test)]
 mod tests{
-    use crate::common;
-
     use super::*;
 
     #[test]
@@ -34,6 +32,6 @@ mod tests{
             vec!['W', 'B', 'W'],
             vec!['B', 'W', 'B'],
         ];
-        assert_eq!(false , can_make_square(input))
+        assert!(!can_make_square(input))
     }
 }

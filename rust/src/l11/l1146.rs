@@ -4,8 +4,7 @@ pub struct SnapshotArray {
 }
 
 impl SnapshotArray {
-
-    pub fn new(length: i32) -> Self {
+    pub fn new(_length: i32) -> Self {
         SnapshotArray {
             snap_shots: Vec::new(),
             data: Vec::new(),
