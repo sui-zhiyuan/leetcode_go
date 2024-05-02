@@ -5,11 +5,11 @@ pub fn mincost_to_hire_workers(quality: Vec<i32>, wage: Vec<i32>, k: i32) -> f64
     let mut workers = quality
         .into_iter()
         .zip(wage)
-        .map(|(q, w)| worker {
+        .map(|(q, w)| Worker {
             quality: q,
             wage_per_item: w as f64 / q as f64,
         })
-        .collect::<Vec<worker>>();
+        .collect::<Vec<Worker>>();
     workers.sort_by(|a, b| a.wage_per_item.partial_cmp(&b.wage_per_item).unwrap());
 
     let mut heap = workers.iter().take(k).collect::<Vec<_>>();
@@ -31,7 +31,7 @@ pub fn mincost_to_hire_workers(quality: Vec<i32>, wage: Vec<i32>, k: i32) -> f64
     result
 }
 
-fn adjust(head: &mut [&worker], mut curr: usize) {
+fn adjust(head: &mut [&Worker], mut curr: usize) {
     while curr * 2 + 1 < head.len() {
         let mut next = curr * 2 + 1;
         if curr * 2 + 2 < head.len() && head[curr * 2 + 2].quality > head[curr * 2 + 1].quality {
@@ -46,14 +46,14 @@ fn adjust(head: &mut [&worker], mut curr: usize) {
 }
 
 #[derive(Debug)]
-struct worker {
+struct Worker {
     quality: i32,
     wage_per_item: f64,
 }
 
 #[cfg(test)]
 mod tests {
-    use approx::relative_eq;
+    use approx::assert_relative_eq;
     use super::*;
 
     #[test]
@@ -71,6 +71,6 @@ mod tests {
         let wage = vec![4, 8, 2, 2, 7];
         let k = 3;
         let except = 30.66667;
-        relative_eq!(except, mincost_to_hire_workers(quality, wage, k));
+        assert_relative_eq!(except, mincost_to_hire_workers(quality, wage, k));
     }
 }
