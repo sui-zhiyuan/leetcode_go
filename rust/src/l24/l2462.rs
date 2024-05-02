@@ -1,3 +1,5 @@
+use std::cmp;
+
 pub fn total_cost(mut costs: Vec<i32>, k: i32, candidates: i32) -> i64 {
     let mut left = Heap {
         start: 0,
@@ -25,7 +27,7 @@ pub fn total_cost(mut costs: Vec<i32>, k: i32, candidates: i32) -> i64 {
     let mut rv = get_min_value(&costs, &right);
     let mut result = 0;
     for _ in 0..k as usize {
-        if lv <= rv && lv.is_some() || rv.is_none() {
+        if lv.map(cmp::Reverse) >= rv.map(cmp::Reverse) {
             result += lv.unwrap() as i64;
             lv = get_rest_left(&mut costs, &mut rest);
             take_value(&mut costs, &mut left, lv);
