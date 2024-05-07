@@ -66,6 +66,7 @@ replacements = [
     Replacement("use crate::common::SegmentTree;", "segment_tree.rs"),
     Replacement("use crate::common::Flyweight;", "flyweight.rs"),
     Replacement("use crate::common::DisjointSet;", "disjoin_set.rs"),
+    Replacement("use crate::common::ExtendVec;", "extend_vec.rs"),
 ]
 
 for r in replacements:
