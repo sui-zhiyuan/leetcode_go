@@ -21,7 +21,8 @@ if not file.exists():
 
 text = file.read_text()
 
-placeholder = ["type TreeNode = crate::common::TreeNode<[fiu]([0-9]+|size)>;\n"]
+placeholder = ["type TreeNode = crate::common::TreeNode<[fiu]([0-9]+|size)>;\n",
+               "type ListNode = crate::common::ListNode<[fiu]([0-9]+|size)>;\n"]
 for r in placeholder:
     m = re.search(r, text)
     if m:
