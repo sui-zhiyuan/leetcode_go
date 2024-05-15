@@ -9,3 +9,7 @@ pub mod l9921;
 pub mod l9922;
 pub mod l9923;
 pub mod l9924;
+pub mod l9931;
+pub mod l9932;
+pub mod l9933;
+pub mod l9934;
