@@ -18,3 +18,7 @@ pub mod l9941;
 pub mod l9942;
 pub mod l9943;
 pub mod l9944;
+pub mod l9951;
+pub mod l9952;
+pub mod l9953;
+pub mod l9954;
