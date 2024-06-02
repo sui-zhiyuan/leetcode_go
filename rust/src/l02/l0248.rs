@@ -5,6 +5,7 @@ pub fn strobogrammatic_in_range(low: String, high: String) -> i32 {
 
     let mut result = 0;
     if low_n == high_n {
+
         for v in find_strobogrammatic(low_n) {
             if v >= low && v <= high {
                 result += 1;
