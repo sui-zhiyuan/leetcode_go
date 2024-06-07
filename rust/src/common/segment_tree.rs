@@ -64,9 +64,9 @@ where
         self.range_inner(0, left, right)
     }
 
-    pub fn range_inner(&self, node: usize, left: usize, right: usize) -> T {
+    fn range_inner(&self, node: usize, left: usize, right: usize) -> T {
         let (node_left, node_right) = self.range_index(node);
-        if node_left >= right || node_right < left {
+        if node_left >= right || node_right <= left {
             return T::default();
         }
         if node_left >= left && node_right <= right {
@@ -180,7 +180,7 @@ impl<T, F> SegmentTree<T, F> {
         let c_deep = mem::size_of::<usize>() * 8 - (node + 1).leading_zeros() as usize - 1;
         let mut change = self.deep - 1 - c_deep;
         if change == 0 {
-            return (node, node + 1);
+            return (self.index(node), self.index(node) + 1);
         }
 
         // left = left * 2 + 1 for change times
