@@ -1,3 +1,6 @@
+use std::io::{stdout, Write};
+
 fn main() {
-    println!("Hello, world!");
+    let output = stdout();
+    write!(&output, "Hello, World!").unwrap();
 }
