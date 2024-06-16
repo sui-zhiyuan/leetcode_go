@@ -1,7 +1,4 @@
-use std::{
-    collections::{HashMap, HashSet},
-    io::sink,
-};
+use std::collections::{HashMap, HashSet};
 
 pub fn count_pairs_of_connectable_servers(edges: Vec<Vec<i32>>, signal_speed: i32) -> Vec<i32> {
     let n = edges.len() + 1;
@@ -71,9 +68,9 @@ pub fn count_pairs_of_connectable_servers(edges: Vec<Vec<i32>>, signal_speed: i3
             }
             *children.entry(map[i][j].next).or_default() += 1;
         }
-        let children = children.iter().map(|(k, v)| v).collect::<Vec<_>>();
+        let children = children.values().collect::<Vec<_>>();
         for (k, sk) in children.iter().enumerate() {
-            for sl in children.iter().skip(k+1) {
+            for sl in children.iter().skip(k + 1) {
                 result[i] += (**sk * **sl) as i32;
             }
         }
@@ -106,7 +103,7 @@ mod tests {
         let edges =
             common::parse_grid::<i32>("[[0,6,3],[6,5,3],[0,3,1],[3,2,7],[3,1,6],[3,4,2]]").unwrap();
         let signal_speed = 3;
-        let res = vec![2,0,0,0,0,0,2];
+        let res = vec![2, 0, 0, 0, 0, 0, 2];
         assert_eq!(count_pairs_of_connectable_servers(edges, signal_speed), res);
     }
 }

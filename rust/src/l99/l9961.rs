@@ -2,7 +2,7 @@ pub fn number_of_child(n: i32, k: i32) -> i32 {
     let mut curr = 0;
     let mut dis = 1;
 
-    for c in 1..=k {
+    for _ in 1..=k {
         curr += dis;
         if curr == n-1 {
             dis = -1;

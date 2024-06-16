@@ -7,8 +7,6 @@ pub fn minimum_rounds(tasks: Vec<i32>) -> i32 {
             *acc.entry(x).or_insert(0) += 1;
             acc
         });
-    
-    let &max_count = counts.values().max().unwrap();
 
     let mut ans = 0;
     for ( _ ,v) in counts {

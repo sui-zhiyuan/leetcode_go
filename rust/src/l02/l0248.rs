@@ -35,7 +35,6 @@ pub fn strobogrammatic_in_range(low: String, high: String) -> i32 {
 
 fn find_strobogrammatic(n: usize) -> Vec<String> {
     let rev: [(char, char); 5] = [('0', '0'), ('1', '1'), ('6', '9'), ('8', '8'), ('9', '6')];
-    let n = n as usize;
 
     let mut stack: Vec<usize> = vec![];
     let mut state = State::Start;

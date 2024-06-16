@@ -4,20 +4,18 @@ pub fn sum_digit_differences(nums: Vec<i32>) -> i64 {
     let mut count = vec![vec![0;10];digits];
     
     for mut n in nums{
-        for i in 0..digits{
-            count[i][(n%10) as usize] += 1;
+        for digs in count.iter_mut(){
+            digs[(n%10) as usize] += 1;
             n /= 10;
         }
     }
 
-    dbg!(&count);
-
     let mut result = 0;
-    for i in 0..digits{
+    for digs in count.iter(){
         result += combination(n as i32, 2);
-        for j in 0..10{
-            if count[i][j] > 1{
-                result -= count[i][j] * (count[i][j] - 1) / 2;
+        for &v in digs{
+            if v > 1{
+                result -= v * (v - 1) / 2;
             }
         }
     }

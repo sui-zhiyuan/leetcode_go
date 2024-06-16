@@ -47,11 +47,11 @@ pub fn add_two_numbers(
         match tail {
             None => {
                 head = Some(Rc::new(RefCell::new(node)));
-                tail = head.clone();
+                tail.clone_from(&head);
             }
             Some(tail_node) => {
                 let nv = Some(Rc::new(RefCell::new(node)));
-                tail_node.borrow_mut().next = nv.clone();
+                tail_node.borrow_mut().next.clone_from(&nv);
                 tail = nv;
             }
         }

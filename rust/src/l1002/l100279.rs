@@ -55,13 +55,6 @@ impl Solution {
     }
 }
 
-#[derive(Debug)]
-struct Edge {
-    from: usize,
-    to: usize,
-    cost: i32,
-}
-
 pub struct Solution();
 
 #[cfg(test)]

@@ -39,8 +39,8 @@ pub fn oranges_rotting(mut grid: Vec<Vec<i32>>) -> i32 {
         mem::swap(&mut curr, &mut next);
     }
 
-    for (i, row) in grid.iter().enumerate() {
-        for (j, &cell) in row.iter().enumerate() {
+    for row in grid.iter() {
+        for &cell in row.iter() {
             if cell == 1 {
                 return -1;
             }

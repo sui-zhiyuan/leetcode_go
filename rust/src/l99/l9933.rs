@@ -24,7 +24,7 @@ pub fn max_score(grid: Vec<Vec<i32>>) -> i32 {
 
 #[cfg(test)]
 mod tests {
-    use crate::common::{self, parse_grid};
+    use crate::common::parse_grid;
 
     use super::*;
 

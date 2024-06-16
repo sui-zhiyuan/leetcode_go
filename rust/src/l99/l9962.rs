@@ -5,7 +5,7 @@ pub fn value_after_k_seconds(n: i32, k: i32) -> i32 {
     let curr = &mut vec![1u64 ; n];
     let next = &mut vec![0u64 ; n];
     const MOD: u64 = 1_000_000_007;
-    for i in 0..k {
+    for _ in 0..k {
         let mut v = 0;
         for j in 0..n {
             v = (v + curr[j]) % MOD;

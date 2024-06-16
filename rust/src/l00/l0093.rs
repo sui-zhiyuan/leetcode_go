@@ -8,7 +8,7 @@ impl Solution {
         for i1 in 1..chars.len() - 2 {
             for i2 in i1 + 1..chars.len() - 1 {
                 for i3 in i2 + 1..chars.len() {
-                    let values = vec![
+                    let values = [
                         chars[0..i1].iter().collect::<String>(),
                         chars[i1..i2].iter().collect::<String>(),
                         chars[i2..i3].iter().collect::<String>(),
