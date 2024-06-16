@@ -98,6 +98,10 @@ where
         }
         tree
     }
+
+    pub fn values(&self) -> Vec<T> {
+        (0..self.len()).map(|i| *self.value(i)).collect()
+    }
 }
 
 impl<T, F> SegmentTree<T, F> {
