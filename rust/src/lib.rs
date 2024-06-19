@@ -4,6 +4,7 @@ pub mod l02;
 pub mod l03;
 pub mod l04;
 pub mod l05;
+pub mod l06;
 pub mod l07;
 pub mod l08;
 pub mod l09;
