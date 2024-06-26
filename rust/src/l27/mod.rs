@@ -1,4 +1,5 @@
 pub mod l2713;
+pub mod l2732;
 pub mod l2739;
 pub mod l2748;
 pub mod l2769;
