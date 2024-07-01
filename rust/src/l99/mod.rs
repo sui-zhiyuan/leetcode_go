@@ -34,3 +34,7 @@ pub mod l9981;
 pub mod l9982;
 pub mod l9983;
 pub mod l9984;
+pub mod l9991;
+pub mod l9992;
+pub mod l9993;
+pub mod l9994;
