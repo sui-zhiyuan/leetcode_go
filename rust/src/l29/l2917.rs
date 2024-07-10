@@ -1,9 +1,9 @@
 pub fn find_k_or(nums: Vec<i32>, k: i32) -> i32 {
     let mut values = vec![0; 31];
     for v in nums {
-        for i in 0..31{
+        for (i , vv) in values.iter_mut().enumerate(){
             if v & (1 << i) != 0 {
-                values[i] += 1;
+                *vv += 1;
             }
         }
     }

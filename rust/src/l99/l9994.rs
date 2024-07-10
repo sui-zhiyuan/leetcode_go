@@ -18,7 +18,7 @@ pub fn minimum_diameter_after_merge(edges1: Vec<Vec<i32>>, edges2: Vec<Vec<i32>>
     depth.sort_by_key(|v| cmp::Reverse(*v));
     let diameter = [max_diameter1 /2 , (max_diameter1 - 1) /2 , max_diameter2 ];
     let diameter = diameter.into_iter().max().unwrap();
-    diameter.max(&depth[0] + depth[1] +1)  -1
+    diameter.max(depth[0] + depth[1] +1)  -1
 }
 
 fn max_deep(edges: &[Edge], curr:i32 , parent: i32) -> (usize, usize) {
