@@ -9,6 +9,7 @@ pub mod l2951;
 pub mod l2965;
 pub mod l2970;
 pub mod l2972;
+pub mod l2974;
 pub mod l2980;
 pub mod l2981;
 pub mod l2982;
