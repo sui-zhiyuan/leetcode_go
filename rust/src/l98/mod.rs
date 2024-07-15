@@ -6,3 +6,7 @@ pub mod l9811;
 pub mod l9812;
 pub mod l9813;
 pub mod l9814;
+pub mod l9821;
+pub mod l9822;
+pub mod l9823;
+pub mod l9824;
