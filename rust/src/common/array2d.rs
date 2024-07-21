@@ -1,5 +1,6 @@
 use std::ops::{Index, IndexMut};
 
+#[derive(Clone)]
 pub struct Dim2Array<T> {
     data: Vec<T>,
     size_x: usize,
@@ -31,15 +32,15 @@ where
     }
 }
 
-impl Index<(usize, usize)> for Dim2Array<i32> {
-    type Output = i32;
+impl<T> Index<(usize, usize)> for Dim2Array<T> {
+    type Output = T;
 
     fn index(&self, index: (usize, usize)) -> &Self::Output {
         self.get(index.0, index.1)
     }
 }
 
-impl IndexMut<(usize, usize)> for Dim2Array<i32> {
+impl<T> IndexMut<(usize, usize)> for Dim2Array<T> {
     fn index_mut(&mut self, index: (usize, usize)) -> &mut Self::Output {
         self.get_mut(index.0, index.1)
     }

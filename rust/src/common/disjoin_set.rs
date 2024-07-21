@@ -45,6 +45,12 @@ where
         }
     }
 
+    pub fn add(&mut self , value: T) -> usize {
+        let index = self.nodes.len();
+        self.nodes.push(Node::Root { size: 1, value });
+        index
+    }
+
     pub fn union(&mut self, left: usize, right: usize) {
         let left = self.find(left);
         let right = self.find(right);
