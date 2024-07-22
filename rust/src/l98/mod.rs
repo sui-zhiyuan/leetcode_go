@@ -10,3 +10,7 @@ pub mod l9821;
 pub mod l9822;
 pub mod l9823;
 pub mod l9824;
+pub mod l9831;
+pub mod l9832;
+pub mod l9833;
+pub mod l9834;
