@@ -12,7 +12,7 @@ pub fn minimum_moves(grid: Vec<Vec<i32>>) -> i32 {
                 less.push(Point { row: r, col: c });
             }
 
-            for i in 2..=v {
+            for _i in 2..=v {
                 more.push(Point { row: r, col: c });
             }
         }

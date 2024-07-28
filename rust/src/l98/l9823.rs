@@ -6,26 +6,26 @@ pub fn minimum_cost(_m: i32, _n: i32, mut horizontal_cut: Vec<i32>, mut vertical
     horizontal_cut.sort_by_key(|v| cmp::Reverse(*v));
     let mut horizontal_cut1 = vec![0];
     horizontal_cut1.append(&mut horizontal_cut);
-    let mut horizontal_cut = horizontal_cut1;
+    let horizontal_cut = horizontal_cut1;
     vertical_cut.sort_by_key(|v| cmp::Reverse(*v));
     let mut vertical_cut1 = vec![0];
     vertical_cut1.append(&mut vertical_cut);
-    let mut vertical_cut = vertical_cut1;
+    let vertical_cut = vertical_cut1;
     let mut curr = &mut vertical_cut.iter().scan(0 , | s , &v| {
         *s += v as i64;
         Some(*s)
     }).collect::<Vec<_>>();
     let mut next = &mut vec![0 ; n];
 
-    for row in 1..m{
-        next[0] = curr[0] + horizontal_cut[row] as i64;
+    for (row, &item) in horizontal_cut.iter().enumerate().take(m).skip(1){
+        next[0] = curr[0] + item as i64;
         for col in 1..n{
             let row_prev = next[col-1];
             let v_cost = vertical_cut[col];
             let v1 = row_prev + v_cost as i64 * (row as i64+1);
 
             let col_prev = curr[col];
-            let h_cost = horizontal_cut[row];
+            let h_cost = item;
             let v2 = col_prev + h_cost as i64 * (col as i64+1);
             next[col] = v1.min(v2);
         }

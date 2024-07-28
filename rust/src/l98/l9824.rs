@@ -1,10 +1,10 @@
 use std::cmp;
 
 pub fn minimum_cost(
-    m: i32,
-    n: i32,
-    mut horizontal_cut: Vec<i32>,
-    mut vertical_cut: Vec<i32>,
+    _m: i32,
+    _n: i32,
+    horizontal_cut: Vec<i32>,
+    vertical_cut: Vec<i32>,
 ) -> i64 {
     let mut cuts = horizontal_cut
         .into_iter()
