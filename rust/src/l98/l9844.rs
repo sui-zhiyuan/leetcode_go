@@ -1,4 +1,3 @@
-
 use crate::common::DisjointSet;
 
 pub fn can_reach_corner(x: i32, y: i32, circles: Vec<Vec<i32>>) -> bool {
@@ -7,10 +6,10 @@ pub fn can_reach_corner(x: i32, y: i32, circles: Vec<Vec<i32>>) -> bool {
 
     let touches = circles.iter().map(|c| {
         Touch{
-            top: c.y + c.r >= y,
-            bottom: c.y - c.r <= 0,
-            left: c.x - c.r <= 0,
-            right: c.x + c.r >= x,
+            top: c.y + c.r >= y && c.y - c.r <= y,
+            bottom: c.y - c.r <= 0 && c.y + c.r >= 0,
+            left: c.x - c.r <= 0 && c.x + c.r >= 0,
+            right: c.x + c.r >= x && c.x - c.r <= x,
         }
     }).collect::<Vec<_>>();
 
