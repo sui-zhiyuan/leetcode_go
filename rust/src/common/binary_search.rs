@@ -5,7 +5,7 @@ where
     T: PartialOrd + Copy + From<u8> + Add<Output = T> + Sub<Output = T> + Div<Output = T>,
 {
     while left < right - 1.into() {
-        let mid = (left + right) / 2.into();
+        let mid = left + (right - left) / 2.into();
         if check(mid) {
             right = mid;
         } else {
