@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import io
+import subprocess
 import sys
 import pathlib
 import os
@@ -97,4 +99,6 @@ for r in replacements:
 
     text = text.replace(r.placeholder, seg_text)
 
-print(text, end="")
+text_input = io.StringIO(text)
+process = subprocess.Popen(["code", "-"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+process.communicate(text.encode())
