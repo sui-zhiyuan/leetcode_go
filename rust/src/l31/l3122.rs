@@ -1,4 +1,4 @@
-use std::{cmp, collections::HashMap};
+use std::collections::HashMap;
 
 pub fn minimum_operations(grid: Vec<Vec<i32>>) -> i32 {
     let n = grid.len();
@@ -6,45 +6,34 @@ pub fn minimum_operations(grid: Vec<Vec<i32>>) -> i32 {
     let mut grid_sum = vec![HashMap::<i32, usize>::new(); m];
     for row in grid.iter() {
         for (j, &cell) in row.iter().enumerate() {
-            *grid_sum[j].entry(cell).or_default() += 1
+            *grid_sum[j].entry(cell).or_insert(n) -= 1
         }
-    }
-    for (i, col) in grid_sum.iter_mut().enumerate() {
-        for (_, v) in col.iter_mut() {
-            *v = n - *v;
-        }
-        // for any else number
-        col.insert(-(i as i32) - 100, n);
     }
 
-    // dbg!(&grid_sum);
+    let mut value = -1;
+    // for any else number
+    for col in grid_sum.iter_mut() {
+        col.insert(value, n);
+        value = -3 - value;
+    }
 
     let mut curr = &mut HashMap::<i32, usize>::new();
     let mut next = &mut HashMap::<i32, usize>::new();
-    curr.insert(-1, 0);
+    curr.insert(-2, 0);
     for col in grid_sum.iter() {
         for (&v, &count) in col.iter() {
-            let mut min = usize::MAX;
-            for (&pv, &pc) in curr.iter() {
-                if pv == v {
-                    continue;
-                }
-                min = cmp::min(pc, min);
-            }
-            if min == usize::MAX {
-                unreachable!("no value found")
-            }
+            let min = curr
+                .iter()
+                .filter(|&(&pv, _)| pv != v)
+                .map(|(_, pc)| pc)
+                .min()
+                .unwrap();
             next.insert(v, min + count);
         }
         (curr, next) = (next, curr);
         next.clear();
-        // dbg!(&curr);
     }
-    let mut min = usize::MAX;
-    for (_, &v) in curr.iter() {
-        min = cmp::min(min, v);
-    }
-    min.try_into().unwrap()
+    curr.iter().map(|(_, &v)| v).min().unwrap() as i32
 }
 
 #[cfg(test)]
