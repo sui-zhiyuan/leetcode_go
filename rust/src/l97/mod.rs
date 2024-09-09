@@ -2,3 +2,8 @@ pub mod l9701;
 pub mod l9702;
 pub mod l9703;
 pub mod l9704;
+pub mod l9711;
+pub mod l9712;
+pub mod l9713;
+pub mod l9714;
+pub mod l9715;
