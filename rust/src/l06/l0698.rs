@@ -1,4 +1,4 @@
-use std::{cmp, collections::HashSet, ffi::c_char};
+use std::{cmp, collections::HashSet};
 
 pub fn can_partition_k_subsets(nums: Vec<i32>, k: i32) -> bool {
     let sum = nums.iter().sum::<i32>();
