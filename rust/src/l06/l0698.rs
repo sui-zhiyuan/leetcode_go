@@ -35,7 +35,7 @@ fn dfs(
     let value = taken
         .iter()
         .enumerate()
-        .fold(0, |acc, (i, &v)| acc + (v as u32) << i);
+        .fold(0, |acc, (i, &v)| (acc + (v as u32)) << i);
     if cache.contains(&(value, curr_target)) {
         return false;
     }

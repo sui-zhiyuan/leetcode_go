@@ -1,4 +1,4 @@
-struct neighborSum {
+pub struct NeighborSum {
     neighbor_sum_value: Vec::<i32>,
     diagonal_sum_value:Vec::<i32>,
 }
@@ -8,13 +8,13 @@ struct neighborSum {
  * `&self` means the method takes an immutable reference.
  * If you need a mutable reference, change it to `&mut self` instead.
  */
-impl neighborSum {
+impl NeighborSum {
 
-    fn new(grid: Vec<Vec<i32>>) -> Self {
+    pub fn new(grid: Vec<Vec<i32>>) -> Self {
         let n = grid.len();
         let total = n * n;
 
-        let mut value = neighborSum{
+        let mut value = NeighborSum{
             neighbor_sum_value: vec![0; total],
             diagonal_sum_value: vec![0; total],
         };
@@ -57,11 +57,11 @@ impl neighborSum {
         value
     }
     
-    fn adjacent_sum(&self, value: i32) -> i32 {
+    pub fn adjacent_sum(&self, value: i32) -> i32 {
         self.neighbor_sum_value[value as usize]
     }
     
-    fn diagonal_sum(&self, value: i32) -> i32 {
+    pub fn diagonal_sum(&self, value: i32) -> i32 {
         self.diagonal_sum_value[value as usize]
     }
 }

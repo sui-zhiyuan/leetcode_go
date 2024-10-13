@@ -1,7 +1,7 @@
 use std::{
     cell::RefCell,
     collections::{HashMap, VecDeque},
-    ops::Add, result,
+    ops::Add,
 };
 
 pub fn max_moves(kx: i32, ky: i32, positions: Vec<Vec<i32>>) -> i32 {
@@ -40,7 +40,7 @@ fn dfs(ctx: &Context, visited: u64, curr: usize, state: State) -> i32 {
         return result;
     }
 
-    let mut all_visitable = (0..ctx.distances.len())
+    let all_visitable = (0..ctx.distances.len())
         .filter(|&i| visited & (1 << i) == 0)
         .map(|i| (i, ctx.distances[curr][i]));
     let target = match state {

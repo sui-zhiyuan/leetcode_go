@@ -7,7 +7,7 @@ pub fn check_record(n: i32) -> i32 {
     const MOD: i64 = 1_000_000_007;
     curr[Pos { absent: 0, late: 0 }] = 1;
     let all_pos = Pos::all().collect::<Vec<_>>();
-    for i in 0..n {
+    for _ in 0..n {
         for p in all_pos.iter(){
             if p.absent < 1 {
                 next[Pos { absent: p.absent + 1, late: 0 }] += curr[*p];

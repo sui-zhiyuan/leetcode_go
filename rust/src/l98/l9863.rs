@@ -1,7 +1,6 @@
 use std::mem;
 
 pub fn maximum_value_sum(board: Vec<Vec<i32>>) -> i64 {
-    let m = board.len();
     let n = board[0].len();
 
     let mut curr_state0 = vec![None; n];
@@ -77,8 +76,8 @@ fn max(a: Option<i64> , b: Option<i64>) -> Option<i64>{
 fn add(a: Option<i64> , b: Option<i64>) -> Option<i64>{
     match (a,b){
         (Some(a), Some(b)) => Some(a + b),
-        (Some(a), None) => None,
-        (None, Some(b)) => None,
+        (Some(_a), None) => None,
+        (None, Some(_b)) => None,
         (None, None) => None,
     }
 }

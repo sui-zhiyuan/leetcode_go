@@ -102,7 +102,7 @@ impl Value {
         
         let mut sum2 = 0;
         if zero_index < counts.len(){
-            let a_nz = (1..=(self.n - counts[zero_index]));
+            let a_nz = 1..=(self.n - counts[zero_index]);
             let mut b_nz = Vec::new();
             for (i, &c) in counts.iter().enumerate() {
                 if i == zero_index {
