@@ -87,7 +87,7 @@ mod tests {
             print_vec(&sums);
             while sums.len() > 1 {
                 for i in 0..(sums.len() - 1) {
-                    sums[i] = sums[i] ^ sums[i + 1];
+                    sums[i] ^= sums[i + 1];
                 }
                 sums.pop();
                 print_vec(&sums);

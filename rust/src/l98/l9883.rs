@@ -23,7 +23,7 @@ pub fn get_final_state(nums: Vec<i32>, k: i32, multiplier: i32) -> Vec<i32> {
     let multiplier = multiplier as u64;
 
     let mut k = k as usize;
-    let mut curr = 1;
+    let mut curr;
     let mut times = 1;
 
     loop {
@@ -32,8 +32,8 @@ pub fn get_final_state(nums: Vec<i32>, k: i32, multiplier: i32) -> Vec<i32> {
         if curr == nums.len() {
             break;
         }
-        let maximum = nums[curr].value;
-        let minium = nums[curr-1].value;
+        // let maximum = nums[curr].value;
+        // let minium = nums[curr-1].value;
         // times = (maximum as f64 / minium as f64)
         //     .log(multiplier as f64)
         //     .ceil() as u64;
@@ -86,11 +86,7 @@ fn to_value(number: &[Number], multiplier: u64) -> Vec<i32> {
 
 impl PartialOrd for Number {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        let c = self.value.cmp(&other.value);
-        if c != Ordering::Equal {
-            return Some(c);
-        }
-        Some(self.index.cmp(&other.index))
+        Some(self.cmp(other))
     }
 }
 

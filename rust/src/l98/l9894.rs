@@ -28,17 +28,13 @@ struct Enemy {
 
 impl PartialOrd for Enemy {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        let ord = (self.damage * other.time).cmp(&(other.damage * self.time));
-        if ord == Ordering::Equal {
-            Some(self.time.cmp(&other.time))
-        } else {
-            Some(ord)
-        }
+        Some(self.cmp(other))
     }
 }
 
 impl Ord for Enemy {
     fn cmp(&self, other: &Self) -> Ordering {
-        self.partial_cmp(other).unwrap()
+        let ord = (self.damage * other.time).cmp(&(other.damage * self.time));
+        ord.then_with(|| self.time.cmp(&other.time))
     }
 }

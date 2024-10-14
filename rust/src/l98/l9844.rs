@@ -25,7 +25,7 @@ pub fn can_reach_corner(x: i32, y: i32, circles: Vec<Vec<i32>>) -> bool {
 
     for i in 0..n {
         let v = dsj.value(i);
-        if v.top && v.bottom || v.left && v.right || v.bottom && v.left || v.top && v.right {
+        if (v.right || v.bottom) && (v.left || v.top) {
             return false;
         }
     }

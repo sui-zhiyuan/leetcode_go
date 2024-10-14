@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-struct MagicDictionary {
+pub struct MagicDictionary {
     words: HashMap<usize, Vec<String>>,
 }
 
@@ -9,21 +9,21 @@ struct MagicDictionary {
  * If you need a mutable reference, change it to `&mut self` instead.
  */
 impl MagicDictionary {
-    fn new() -> Self {
+    pub fn new() -> Self {
         MagicDictionary {
             words: HashMap::new(),
         }
     }
 
-    fn build_dict(&mut self, dictionary: Vec<String>) {
+    pub fn build_dict(&mut self, dictionary: Vec<String>) {
         for word in dictionary {
             let len = word.len();
-            let entry = self.words.entry(len).or_insert(Vec::new());
+            let entry = self.words.entry(len).or_default();
             entry.push(word);
         }
     }
 
-    fn search(&self, search_word: String) -> bool {
+    pub fn search(&self, search_word: String) -> bool {
         let len = search_word.len();
 
         let Some(words) = self.words.get(&len) else {
@@ -31,12 +31,18 @@ impl MagicDictionary {
         };
 
         for word in words {
-            let miss_matchs = search_word.chars().zip(word.chars()).filter(|(a, b)| a != b).count();
-            if miss_matchs == 1 {
+            let miss_matches = search_word.chars().zip(word.chars()).filter(|(a, b)| a != b).count();
+            if miss_matches == 1 {
                 return true;
             }
         }
 
         false
+    }
+}
+
+impl Default for MagicDictionary {
+    fn default() -> Self {
+        Self::new()
     }
 }

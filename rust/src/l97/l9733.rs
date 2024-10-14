@@ -9,7 +9,7 @@ pub fn count_winning_sequences(s: String) -> i32 {
     let mut next = vec![[0i64; 3]; n * 2 + 1];
     // state[win_count][last]
 
-    curr[0]= [1,1,1];
+    curr[0] = [1, 1, 1];
 
     for (round, &enemy) in s.iter().enumerate() {
         let enemy = match enemy {
@@ -43,7 +43,8 @@ pub fn count_winning_sequences(s: String) -> i32 {
                     if prev_me == me {
                         continue;
                     }
-                    next[win_count][me] = (next[win_count][me] + curr[win_count - win_add][prev_me]) % MOD;
+                    next[win_count][me] =
+                        (next[win_count][me] + curr[win_count - win_add][prev_me]) % MOD;
                 }
             }
         }
@@ -51,9 +52,9 @@ pub fn count_winning_sequences(s: String) -> i32 {
     }
 
     let mut result = 0;
-    for i in n + 1..=n * 2 {
-        for me in 0..=2 {
-            result = (result + curr[i][me])% MOD;
+    for curr in curr[n + 1..=n * 2].iter() {
+        for &value in curr.iter() {
+            result = (result + value) % MOD;
         }
     }
 

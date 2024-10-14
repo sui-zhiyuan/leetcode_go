@@ -76,8 +76,8 @@ fn max(a: Option<i64> , b: Option<i64>) -> Option<i64>{
 fn add(a: Option<i64> , b: Option<i64>) -> Option<i64>{
     match (a,b){
         (Some(a), Some(b)) => Some(a + b),
-        (Some(a), None) => None,
-        (None, Some(b)) => None,
+        (Some(_), None) => None,
+        (None, Some(_)) => None,
         (None, None) => None,
     }
 }

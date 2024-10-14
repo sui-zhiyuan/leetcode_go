@@ -1,11 +1,11 @@
-use std::{cmp, u8, usize};
+use std::cmp;
 
 pub fn count_good_integers(n: i32, k: i32) -> i64 {
     let n = n as usize;
     let k = k as usize;
     let mut md = vec![1 % k];
 
-    for d in 1..n {
+    for _ in 1..n {
         let last = md.last().unwrap();
         let next = (last * 10) % k;
         md.push(next);
@@ -30,7 +30,7 @@ pub fn count_good_integers(n: i32, k: i32) -> i64 {
 
         let mut tmd = 0;
         for (i, &v) in digs.iter().enumerate() {
-            tmd += v as usize * md[i] as usize
+            tmd += v as usize * md[i]
         }
         if tmd % k != 0 {
             continue;
@@ -100,9 +100,9 @@ impl Value {
         }
         let sum1 = cal_sv(a.clone(), b);
         
-        let mut sum2 = 0;
+        let sum2 = 0;
         if zero_index < counts.len(){
-            let a_nz = 1..=(self.n - counts[zero_index]);
+            // let a_nz = 1..=(self.n - counts[zero_index]);
             let mut b_nz = Vec::new();
             for (i, &c) in counts.iter().enumerate() {
                 if i == zero_index {
@@ -111,7 +111,7 @@ impl Value {
                 b_nz.extend(1..=c);
             }
     
-            let sum2 = cal_sv(a, b_nz);
+            // let sum2 = cal_sv(a, b_nz);
         }
 
         sum1 - sum2
@@ -161,7 +161,7 @@ mod tests {
         for k in 1..10 {
             let mut r = vec![1 % k];
 
-            for d in 1..10 {
+            for _ in 1..10 {
                 let last = r.last().unwrap();
                 let next = (last * 10) % k;
                 r.push(next);
