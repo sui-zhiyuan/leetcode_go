@@ -23,8 +23,10 @@ if not file.exists():
 
 text = file.read_text()
 
-placeholder = ["type TreeNode = crate::common::TreeNode<[fiu]([0-9]+|size)>;\n",
-               "type ListNode = crate::common::ListNode<[fiu]([0-9]+|size)>;\n"]
+placeholder = [
+    "type TreeNode = crate::common::TreeNode<[fiu]([0-9]+|size)>;\n",
+    "type ListNode = crate::common::ListNode<[fiu]([0-9]+|size)>;\n",
+]
 for r in placeholder:
     m = re.search(r, text)
     if m:
@@ -57,6 +59,7 @@ text = (
     + suffix
 )
 
+
 class Replacement:
     placeholder = ""
     file_name = ""
@@ -65,6 +68,7 @@ class Replacement:
         self.placeholder = placeholder
         self.file_name = file_name
 
+
 replacements = [
     Replacement("use crate::common::SegmentTree;", "segment_tree.rs"),
     Replacement("use crate::common::Flyweight;", "flyweight.rs"),
@@ -72,7 +76,6 @@ replacements = [
     Replacement("use crate::common::ExtendVec;", "extend_vec.rs"),
     Replacement("use crate::common::Dim2Array;", "array2d.rs"),
     Replacement("use crate::common::binary_search;", "binary_search.rs"),
-    
 ]
 
 for r in replacements:
@@ -101,5 +104,11 @@ for r in replacements:
     text = text.replace(r.placeholder, seg_text)
 
 text_input = io.StringIO(text)
-process = subprocess.Popen(["code", "-"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+process = subprocess.Popen(
+    ["code", "-"],
+    stdin=subprocess.PIPE,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    shell=True,
+)
 process.communicate(text.encode())

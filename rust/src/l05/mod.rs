@@ -7,3 +7,4 @@ pub mod l0552;
 pub mod l0556;
 pub mod l0572;
 pub mod l0575;
+pub mod l0594;
