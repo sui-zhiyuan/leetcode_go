@@ -29,7 +29,7 @@ if new_mod not in lib_content:
 folder = pathlib.Path(root, "rust", "src", mod)
 if not folder.exists():
     folder.mkdir(parents=True)
-    
+
 
 mod_file = pathlib.Path(folder, "mod.rs")
 if not mod_file.exists():
@@ -46,5 +46,4 @@ src_file = pathlib.Path(root, "rust", "src", mod, file + ".rs")
 if not src_file.exists():
     src_file.touch()
 
-subprocess.run(["code", str(src_file)])
-    
+subprocess.run(["code", str(src_file)], shell=True)
