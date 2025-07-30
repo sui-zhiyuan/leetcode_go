@@ -72,9 +72,9 @@ impl From<i32> for ModInteger {
     }
 }
 
-impl Into<i32> for ModInteger {
-    fn into(self) -> i32 {
-        self.0
+impl From<ModInteger> for i32 {
+    fn from(value: ModInteger) -> Self {
+        value.0
     }
 }
 

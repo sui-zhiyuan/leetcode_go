@@ -27,7 +27,7 @@ pub fn possible_string_count(word: String, k: i32) -> i32 {
         }
     }
 
-    if k <= 0 {
+    if k == 0 {
         return ans as i32;
     }
     
@@ -44,7 +44,7 @@ pub fn possible_string_count(word: String, k: i32) -> i32 {
         }
 
         for j in 0..k {
-            f[i + 1][j] = (s[j + 1] - s[j.checked_sub(cnts[i] as usize).unwrap_or(0)]) % MOD;
+            f[i + 1][j] = (s[j + 1] - s[j.saturating_sub(cnts[i] as usize)]) % MOD;
         }
     }
 
