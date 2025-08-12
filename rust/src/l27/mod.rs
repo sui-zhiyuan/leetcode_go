@@ -12,4 +12,5 @@ pub mod l2766;
 pub mod l2769;
 pub mod l2779;
 pub mod l2786;
+pub mod l2787;
 pub mod l2798;
