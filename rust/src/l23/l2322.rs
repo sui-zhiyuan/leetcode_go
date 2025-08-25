@@ -154,7 +154,7 @@ mod tests {
     #[test]
     fn test1() {
         let nums = vec![1, 5, 5, 4, 11];
-        let edges = vec![[0, 1], [1, 2], [1, 3], [3, 4]]
+        let edges = [[0, 1], [1, 2], [1, 3], [3, 4]]
             .iter()
             .map(|v| v.to_vec())
             .collect::<Vec<_>>();

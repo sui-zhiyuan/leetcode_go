@@ -7,6 +7,12 @@ pub struct FileSystem {
 
 const ROOT_NODE: usize = 0;
 
+impl Default for FileSystem {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl FileSystem {
     pub fn new() -> Self {
         FileSystem {
@@ -61,18 +67,16 @@ impl FileSystem {
         let mut curr = root;
 
         for step in path {
-            let Some(v) = self.nodes[curr].children.get(*step) else {
-                return None;
-            };
+            let v = self.nodes[curr].children.get(*step)?;
             curr = *v;
         }
 
         Some(curr)
     }
 
-    fn get_path_part(path: &String) -> Vec<&str> {
+    fn get_path_part(path: &str) -> Vec<&str> {
         let path = path.trim_matches('/').split('/').collect::<Vec<_>>();
-        assert!(path.len() > 0, "path is empty");
+        assert!(!path.is_empty(), "path is empty");
         path
     }
 }

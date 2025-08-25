@@ -8,13 +8,13 @@ pub fn new21_game(n: i32, k: i32, max_pts: i32) -> f64 {
     }
     let mut prob = vec![0f64; k + max_pts];
 
-    for i in k..=n {
-        prob[i] = 1f64
+    for v in prob[k..=n].iter_mut() {
+        *v = 1f64
     }
 
     let mut sum = 0f64;
-    for i in k..(k + max_pts) {
-        sum += prob[i]
+    for v in prob[k..k + max_pts].iter() {
+        sum += v
     }
 
     for i in (0..k).rev() {

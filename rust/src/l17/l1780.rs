@@ -5,7 +5,7 @@ pub fn check_powers_of_three(n: i32) -> bool {
         if digit >= 2 {
             return false;
         }
-        n = n / 3;
+        n /= 3;
     }
     true
 }
