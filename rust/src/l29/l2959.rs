@@ -1,10 +1,10 @@
 use std::iter;
 
-use crate::common::Dim2Array;
+use crate::common::Grid;
 
 pub fn number_of_sets(n: i32, max_distance: i32, roads: Vec<Vec<i32>>) -> i32 {
     let n = n as usize;
-    let mut grid = Dim2Array::new(n, n, Option::<i32>::None);
+    let mut grid = Grid::new((n, n), Option::<i32>::None);
     for road in roads {
         if grid[(road[0] as usize, road[1] as usize)].is_some() && grid[(road[0] as usize, road[1] as usize)].unwrap() <= road[2] {
             continue;
@@ -22,7 +22,7 @@ pub fn number_of_sets(n: i32, max_distance: i32, roads: Vec<Vec<i32>>) -> i32 {
 fn count_solution(
     n: usize,
     max_distance: i32,
-    grid: &Dim2Array<Option<i32>>,
+    grid: &Grid<Option<i32>>,
     curr: usize,
     used: &mut [bool],
 ) -> i32 {

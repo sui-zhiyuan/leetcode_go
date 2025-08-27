@@ -74,7 +74,8 @@ replacements = [
     Replacement("use crate::common::Flyweight;", "flyweight.rs"),
     Replacement("use crate::common::DisjointSet;", "disjoin_set.rs"),
     Replacement("use crate::common::ExtendVec;", "extend_vec.rs"),
-    Replacement("use crate::common::Dim2Array;", "array2d.rs"),
+    Replacement("use crate::common::Grid;", "grid.rs"),
+    Replacement("use crate::common::{Coordinate, Grid};", "grid.rs"),
     Replacement("use crate::common::binary_search;", "binary_search.rs"),
 ]
 

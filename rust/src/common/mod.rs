@@ -5,7 +5,7 @@ mod link_binary_tree;
 mod link_list;
 mod parser;
 mod segment_tree;
-mod array2d;
+mod grid;
 mod binary_search;
 mod order_key;
 
@@ -19,7 +19,8 @@ pub use segment_tree::SegmentTree;
 pub use disjoin_set::DisjointSet;
 pub use parser::{parse_grid , parser_vec};
 pub use extend_vec::ExtendVec;
-pub use array2d::Dim2Array;
+pub use grid::Grid;
+pub use grid::Coordinate;
 pub use binary_search::binary_search;
 pub use order_key::{OrderKey , OrderKeyTrait};
 

@@ -1,8 +1,8 @@
-use crate::common::Dim2Array;
+use crate::common::Grid;
 
 pub fn max_coins(nums: Vec<i32>) -> i32 {
     let n = nums.len();
-    let mut max_coins = Dim2Array::new(n, n, 0);
+    let mut max_coins = Grid::new((n, n), 0);
 
     let get_prev = |i: usize| -> i32 {
         if i == 0 {
@@ -37,4 +37,3 @@ pub fn max_coins(nums: Vec<i32>) -> i32 {
     }
     max_coins[(0, n - 1)]
 }
-
