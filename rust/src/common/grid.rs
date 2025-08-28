@@ -41,6 +41,10 @@ impl<T> Grid<T> {
             None
         }
     }
+
+    pub fn size(&self) -> Coordinate {
+        self.size
+    }
 }
 
 impl<T> Grid<T>
@@ -74,6 +78,21 @@ impl<T> From<Vec<Vec<T>>> for Grid<T> {
     }
 }
 
+impl<T> Into<Vec<Vec<T>>> for Grid<T> {
+    fn into(self) -> Vec<Vec<T>> {
+        let mut grid = Vec::with_capacity(self.size.x);
+        let mut row = Vec::with_capacity(self.size.y);
+        for (i, v) in self.data.into_iter().enumerate() {
+            row.push(v);
+            if i % self.size.y == self.size.y - 1 {
+                grid.push(row);
+                row = Vec::with_capacity(self.size.x);
+            }
+        }
+        grid
+    }
+}
+
 impl<T, K> Index<K> for Grid<T>
 where
     K: Into<Coordinate>,
@@ -96,8 +115,8 @@ where
 
 #[derive(Clone, Copy)]
 pub struct Coordinate {
-    x: usize,
-    y: usize,
+    pub x: usize,
+    pub y: usize,
 }
 
 impl Coordinate {
