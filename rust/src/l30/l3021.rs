@@ -16,14 +16,21 @@ fn number_count(v: i32) -> (i64, i64) {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::parameter_tests;
 
-    #[test]
-    fn test1() {
-        assert_eq!(3, flower_game(3, 2));
+    struct TestCase {
+        result: i64,
+        n: i32,
+        m: i32,
     }
 
-    #[test]
-    fn test2() {
-        assert_eq!(0, flower_game(1, 1));
+    fn test(p: TestCase) {
+        assert_eq!(p.result, flower_game(p.n, p.m))
+    }
+
+    parameter_tests! {
+        test,
+        (case_1: TestCase{result:3, n: 3 , m: 2}),
+        (case_2: TestCase{result:0, n: 1 , m: 1}),
     }
 }
