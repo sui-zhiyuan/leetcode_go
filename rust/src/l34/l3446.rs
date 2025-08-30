@@ -1,5 +1,6 @@
 use crate::common::Grid;
 use std::cmp::Reverse;
+use std::iter;
 
 pub fn sort_matrix(grid: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
     let mut grid = Grid::from(grid);
@@ -36,10 +37,10 @@ pub fn sort_matrix(grid: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
 
         values.sort_unstable_by_key(|&v| v);
 
-        for i in 0..max_i {
+        for (i, &v) in values.iter().enumerate() {
             let x = i;
             let y = j + i;
-            grid[(x, y)] = values[i];
+            grid[(x, y)] = v;
         }
     }
 

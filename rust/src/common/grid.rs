@@ -1,5 +1,5 @@
 use std::fmt::{Debug, Formatter};
-use std::ops::{Index, IndexMut};
+use std::ops::{Add, Index, IndexMut};
 
 #[derive(Clone)]
 pub struct Grid<T> {
@@ -78,15 +78,15 @@ impl<T> From<Vec<Vec<T>>> for Grid<T> {
     }
 }
 
-impl<T> Into<Vec<Vec<T>>> for Grid<T> {
-    fn into(self) -> Vec<Vec<T>> {
-        let mut grid = Vec::with_capacity(self.size.x);
-        let mut row = Vec::with_capacity(self.size.y);
-        for (i, v) in self.data.into_iter().enumerate() {
+impl<T> From<Grid<T>> for Vec<Vec<T>> {
+    fn from(val: Grid<T>) -> Self {
+        let mut grid = Vec::with_capacity(val.size.x);
+        let mut row = Vec::with_capacity(val.size.y);
+        for (i, v) in val.data.into_iter().enumerate() {
             row.push(v);
-            if i % self.size.y == self.size.y - 1 {
+            if i % val.size.y == val.size.y - 1 {
                 grid.push(row);
-                row = Vec::with_capacity(self.size.x);
+                row = Vec::with_capacity(val.size.x);
             }
         }
         grid
@@ -134,5 +134,16 @@ impl Debug for Coordinate {
 impl From<(usize, usize)> for Coordinate {
     fn from((x, y): (usize, usize)) -> Self {
         Coordinate { x, y }
+    }
+}
+
+impl Add for Coordinate {
+    type Output = Coordinate;
+
+    fn add(self, rhs: Coordinate) -> Self::Output {
+        Coordinate {
+            x: self.x + rhs.x,
+            y: self.y + rhs.y,
+        }
     }
 }
