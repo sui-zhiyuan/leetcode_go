@@ -45,6 +45,19 @@ impl<T> Grid<T> {
     pub fn size(&self) -> Coordinate {
         self.size
     }
+
+    pub fn map<U>(&self, mut f: impl FnMut(&T) -> U) -> Grid<U> {
+        let mut ret = Grid {
+            size: self.size,
+            data: Vec::with_capacity(self.size.x * self.size.y),
+        };
+        for x in 0..self.size.x {
+            for y in 0..self.size.y {
+                ret.data.push(f(self.get((x, y))));
+            }
+        }
+        ret
+    }
 }
 
 impl<T> Grid<T>
@@ -69,6 +82,27 @@ impl<T> From<Vec<Vec<T>>> for Grid<T> {
         let mut data = Vec::new();
         for v in value {
             data.extend(v);
+        }
+
+        Grid {
+            data,
+            size: (size_x, size_y).into(),
+        }
+    }
+}
+
+impl<T> From<&Vec<Vec<T>>> for Grid<T>
+where
+    T: Clone,
+{
+    fn from(value: &Vec<Vec<T>>) -> Self {
+        let size_x = value.len();
+        let size_y = value[0].len();
+        assert!(value.iter().map(|row| row.len()).all(|len| len == size_y));
+
+        let mut data = Vec::new();
+        for v in value {
+            data.extend(v.clone());
         }
 
         Grid {
@@ -113,7 +147,7 @@ where
     }
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, PartialEq, Eq)]
 pub struct Coordinate {
     pub x: usize,
     pub y: usize,

@@ -1,6 +1,5 @@
 use crate::common::Grid;
 use std::cmp::Reverse;
-use std::iter;
 
 pub fn sort_matrix(grid: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
     let mut grid = Grid::from(grid);

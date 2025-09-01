@@ -7,7 +7,6 @@ mod parser;
 mod segment_tree;
 mod grid;
 mod binary_search;
-mod order_key;
 
 pub mod sort;
 pub mod error;
@@ -23,7 +22,6 @@ pub use extend_vec::ExtendVec;
 pub use grid::Grid;
 pub use grid::Coordinate;
 pub use binary_search::binary_search;
-pub use order_key::{OrderKey , OrderKeyTrait};
 
 pub use error::Error;
 pub use error::Result;
