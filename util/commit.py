@@ -75,6 +75,7 @@ replacements = [
     Replacement("use crate::common::DisjointSet;", "disjoin_set.rs"),
     Replacement("use crate::common::ExtendVec;", "extend_vec.rs"),
     Replacement("use crate::common::Grid;", "grid.rs"),
+    Replacement("use crate::common::Coordinate;", "grid.rs"),
     Replacement("use crate::common::{Coordinate, Grid};", "grid.rs"),
     Replacement("use crate::common::binary_search;", "binary_search.rs"),
 ]
@@ -83,6 +84,15 @@ for r in replacements:
     seg_index = text.find(r.placeholder)
     if seg_index < 0:
         continue
+
+    # replace use
+    mod_name = r.file_name.removesuffix(".rs")
+    struct_name = r.placeholder.removeprefix("use crate::common::").removesuffix(";")
+    replace_use = "use {mod}::{struct};".format(mod=mod_name, struct=struct_name)
+    text = text.replace(r.placeholder, replace_use)
+    text += "\n"
+
+    # add text to end
     seg_path = pathlib.Path(root, "rust", "src", "common", r.file_name)
     seg_text = seg_path.read_text()
     seg_index = seg_text.find("// debug and test")
@@ -93,16 +103,15 @@ for r in replacements:
     while seg_text.endswith("\n"):
         seg_text = seg_text.removesuffix("\n")
 
-    mod_name = r.file_name.removesuffix(".rs")
-    struct_name = r.placeholder.removeprefix("use crate::common::").removesuffix(";")
     seg_text = (
         "mod {mod}{{\n".format(mod=mod_name)
         + "".join(["    " + v for v in seg_text.splitlines(True)])
         + "}\n"
-        + "use {mod}::{struct};\n".format(mod=mod_name, struct=struct_name)
     )
 
-    text = text.replace(r.placeholder, seg_text)
+    text += seg_text
+
+    
 
 text_input = io.StringIO(text)
 process = subprocess.Popen(

@@ -148,34 +148,49 @@ where
 }
 
 #[derive(Clone, Copy, PartialEq, Eq)]
-pub struct Coordinate {
-    pub x: usize,
-    pub y: usize,
+pub struct Coordinate<T = usize> {
+    pub x: T,
+    pub y: T,
 }
 
-impl Coordinate {
-    fn inside(&self, c: Coordinate) -> bool {
+impl<T> Coordinate<T> {
+    pub fn new(x: T, y: T) -> Self {
+        Self { x, y }
+    }
+}
+
+impl<T> Coordinate<T>
+where
+    T: Ord,
+{
+    pub fn inside(&self, c: Self) -> bool {
         self.x < c.x && self.y < c.y
     }
 }
 
-impl Debug for Coordinate {
+impl<T> Debug for Coordinate<T>
+where
+    T: Debug,
+{
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "({},{})", self.x, self.y)
+        write!(f, "({:?},{:?})", self.x, self.y)
     }
 }
 
-impl From<(usize, usize)> for Coordinate {
-    fn from((x, y): (usize, usize)) -> Self {
+impl<T> From<(T, T)> for Coordinate<T> {
+    fn from((x, y): (T, T)) -> Self {
         Coordinate { x, y }
     }
 }
 
-impl Add for Coordinate {
-    type Output = Coordinate;
+impl<T> Add for Coordinate<T>
+where
+    T: Add<Output = T>,
+{
+    type Output = Self;
 
-    fn add(self, rhs: Coordinate) -> Self::Output {
-        Coordinate {
+    fn add(self, rhs: Self) -> Self::Output {
+        Self {
             x: self.x + rhs.x,
             y: self.y + rhs.y,
         }
