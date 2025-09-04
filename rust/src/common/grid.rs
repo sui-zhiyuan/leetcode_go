@@ -196,3 +196,22 @@ where
         }
     }
 }
+
+impl Coordinate<usize> {
+    pub fn checked_add(self, rhs: Coordinate<usize>) -> Option<Coordinate<usize>> {
+        match (self.x.checked_add(rhs.x), self.y.checked_add(rhs.y)) {
+            (Some(x), Some(y)) => Some(Coordinate { x, y }),
+            _ => None,
+        }
+    }
+
+    pub fn checked_add_signed(self, rhs: Coordinate<isize>) -> Option<Coordinate<usize>> {
+        match (
+            self.x.checked_add_signed(rhs.x),
+            self.y.checked_add_signed(rhs.y),
+        ) {
+            (Some(x), Some(y)) => Some(Coordinate { x, y }),
+            _ => None,
+        }
+    }
+}
