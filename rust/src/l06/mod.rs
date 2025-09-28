@@ -1,4 +1,5 @@
 pub mod l0600;
+pub mod l0611;
 pub mod l0624;
 pub mod l0676;
 pub mod l0679;
