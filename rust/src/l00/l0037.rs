@@ -40,7 +40,7 @@ fn find_solution(board: &mut Grid<Option<u8>>, status: &Status) -> bool {
                 continue;
             }
             let c = status.choices((x, y).into());
-            if c.len() == 0 {
+            if c.is_empty() {
                 return false;
             } else if c.len() < min_choice {
                 min_choice = c.len();
@@ -58,8 +58,8 @@ fn find_solution(board: &mut Grid<Option<u8>>, status: &Status) -> bool {
     for &c in choices.iter() {
         assert!(board[min_coor].is_none());
         board[min_coor] = Some(c);
-        let mut new_status = status.clone();
-        new_status.apply((min_coor).into(), c);
+        let mut new_status = *status;
+        new_status.apply(min_coor, c);
 
         // println!("chose {c} at {min_coor:?} from {:?}", &choices);
         // debug_all(board, status);
