@@ -147,7 +147,26 @@ where
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+impl<T> Grid<T> {
+    pub fn iter(&self) -> impl Iterator<Item = &T> {
+        self.size.iter().map(|c| &self[c])
+    }
+
+    // todo not allow mut
+    // pub fn iter_mut<>(&mut self) -> impl Iterator<Item = &mut T> {
+    //     self.size.iter().map(|c| &mut self[c])
+    // }
+
+    pub fn iter_coor(&self) -> impl Iterator<Item = (Coordinate, &T)> {
+        self.size.iter().map(|c| (c, &self[c]))
+    }
+
+    // pub fn iter_coor_mut(&mut self) -> impl Iterator<Item = (Coordinate, &mut T)> {
+    //     self.size.iter().map(|c| (c, &mut self[c]))
+    // }
+}
+
+#[derive(Clone, Copy, PartialEq, Eq, Default)]
 pub struct Coordinate<T = usize> {
     pub x: T,
     pub y: T,
@@ -213,5 +232,123 @@ impl Coordinate<usize> {
             (Some(x), Some(y)) => Some(Coordinate { x, y }),
             _ => None,
         }
+    }
+}
+
+// refactor after `std::Step` stabilized
+impl<T> Coordinate<T>
+where
+    T: Step + Default + PartialOrd + Copy,
+{
+    pub fn iter(self) -> impl DoubleEndedIterator<Item = Coordinate<T>> {
+        let mut end_x = self.x;
+        let mut end_y = self.y;
+        end_x.step_back();
+        end_y.step_back();
+        RangeIter {
+
+            start: Coordinate::default(),
+            end: Coordinate {
+                x: self.x.st(),
+                y: T::default(),
+            },
+            max: self,
+        }
+    }
+}
+
+struct RangeIter<T> {
+    start: Coordinate<T>,
+    end: Coordinate<T>,
+    max: Coordinate<T>,
+}
+
+impl<T> Iterator for RangeIter<T>
+where
+    T: Step + Default + PartialOrd + Copy,
+{
+    type Item = Coordinate<T>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.start.x > self.end.y || self.start.x == self.end.x && self.start.x >= self.end.y {
+            return None;
+        }
+        let ret = self.start;
+        if !self.start.y.step(self.max.y) {
+            if !self.start.x.step(self.max.x) {
+                return None;
+            }
+            self.start.y = T::default();
+        }
+        Some(ret)
+    }
+}
+
+impl<T> DoubleEndedIterator for RangeIter<T>
+where
+    T: Step + Default + PartialOrd + Copy,
+{
+    fn next_back(&mut self) -> Option<Self::Item> {
+        if !self.end.y.step_back() {
+            if !self.end.x.step_back() {
+                return None;
+            }
+            self.end.y = self.max.y;
+        }
+
+        if self.start.x > self.end.y || self.start.x == self.end.x && self.start.x > self.end.y {
+            return None;
+        }
+
+        Some(self.end)
+    }
+}
+
+pub trait Step {
+    fn step(&mut self, max: Self) -> bool;
+    fn step_back(&mut self) -> bool;
+}
+
+impl Step for usize {
+    fn step(&mut self, max: Self) -> bool {
+        if *self + 1 >= max {
+            return false;
+        }
+        *self += 1;
+        true
+    }
+
+    fn step_back(&mut self) -> bool {
+        if *self == 0 {
+            return false;
+        }
+        *self -= 1;
+        true
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_iter() {
+        let coor = Coordinate {
+            x: 2usize,
+            y: 3usize,
+        };
+
+        let mut expect = Vec::new();
+
+        for x in 0..coor.x {
+            for y in 0..coor.y {
+                expect.push(Coordinate { x, y });
+            }
+        }
+
+        let expect_rev = expect.iter().copied().rev().collect::<Vec<_>>();
+
+        assert_eq!(expect, coor.iter().collect::<Vec<Coordinate>>());
+        assert_eq!(expect_rev, coor.iter().rev().collect::<Vec<Coordinate>>());
     }
 }
