@@ -1,10 +1,10 @@
 pub fn minimum_average(mut nums: Vec<i32>) -> f64 {
     nums.sort();
-    assert!(nums.len() % 2 ==0);
+    assert!(nums.len().is_multiple_of(2));
     let mid = nums.len() / 2;
 
     let mut result = Vec::new();
-    for i in 0..mid{
+    for i in 0..mid {
         result.push(nums[i] + nums[nums.len() - i - 1]);
     }
 

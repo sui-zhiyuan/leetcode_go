@@ -30,18 +30,10 @@ struct Point {
     col: usize,
 }
 
-impl Point{
+impl Point {
     fn distance(&self, other: &Point) -> i32 {
-        let v = Self::abs_sub(self.row, other.row) + Self::abs_sub(self.col, other.col);
+        let v = self.row.abs_diff(other.row) + self.col.abs_diff(other.col);
         v as i32
-    }
-
-    fn abs_sub(a: usize, b: usize) -> usize {
-        if a > b {
-            a - b
-        } else {
-            b - a
-        }
     }
 }
 

@@ -107,7 +107,7 @@ where
 impl<T, F> SegmentTree<T, F> {
     // data count
     pub fn len(&self) -> usize {
-        (self.tree.len() + 1) / 2
+        self.tree.len().div_ceil(2)
     }
 
     pub fn is_empty(&self) -> bool {

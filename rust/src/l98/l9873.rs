@@ -3,7 +3,7 @@ pub fn largest_palindrome(n: i32, k: i32) -> String {
 
     if k == 6 && n >=5 {
         let half = '9'.to_string().repeat(n /2 + n % 2 -2);
-        let mid = if n % 2 == 0 {
+        let mid = if n.is_multiple_of(2) {
             "77".to_string()
         }else {
             "8".to_string()

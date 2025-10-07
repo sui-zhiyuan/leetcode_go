@@ -46,17 +46,11 @@ impl<T> Grid<T> {
         self.size
     }
 
-    pub fn map<U>(&self, mut f: impl FnMut(&T) -> U) -> Grid<U> {
-        let mut ret = Grid {
+    pub fn map<U>(&self, f: impl FnMut(&T) -> U) -> Grid<U> {
+        Grid {
             size: self.size,
-            data: Vec::with_capacity(self.size.x * self.size.y),
-        };
-        for x in 0..self.size.x {
-            for y in 0..self.size.y {
-                ret.data.push(f(self.get((x, y))));
-            }
+            data: self.data.iter().map(f).collect(),
         }
-        ret
     }
 }
 
@@ -93,7 +87,7 @@ impl<T> From<Vec<Vec<T>>> for Grid<T> {
 
 impl<T> From<&Vec<Vec<T>>> for Grid<T>
 where
-    T: Clone,
+    T: Copy,
 {
     fn from(value: &Vec<Vec<T>>) -> Self {
         let size_x = value.len();
@@ -102,7 +96,7 @@ where
 
         let mut data = Vec::new();
         for v in value {
-            data.extend(v.clone());
+            data.extend_from_slice(v);
         }
 
         Grid {
@@ -241,18 +235,16 @@ where
     T: Step + Default + PartialOrd + Copy,
 {
     pub fn iter(self) -> impl DoubleEndedIterator<Item = Coordinate<T>> {
-        let mut end_x = self.x;
-        let mut end_y = self.y;
-        end_x.step_back();
-        end_y.step_back();
+        let start = Coordinate::default();
+        let mut end = self;
+        end.x.step_back(start.x);
+        end.y.step_back(start.y);
         RangeIter {
-
-            start: Coordinate::default(),
-            end: Coordinate {
-                x: self.x.st(),
-                y: T::default(),
-            },
+            start,
+            end,
+            min: start,
             max: self,
+            complete: start.x >= self.x || start.y >= self.y,
         }
     }
 }
@@ -260,53 +252,82 @@ where
 struct RangeIter<T> {
     start: Coordinate<T>,
     end: Coordinate<T>,
+    min: Coordinate<T>,
     max: Coordinate<T>,
+    complete: bool,
+}
+
+impl<T> RangeIter<T>
+where
+    T: Step,
+{
+    fn next_internal(
+        &mut self,
+        f_curr_value: impl FnOnce(&Self) -> Coordinate<T>,
+        f_next: impl FnOnce(&mut Self),
+    ) -> Option<Coordinate<T>> {
+        if self.complete {
+            return None;
+        }
+        if self.start.x > self.end.x || self.start.x == self.end.x && self.start.y > self.end.y {
+            self.complete = true;
+            return None;
+        }
+        if self.start.x == self.end.x && self.start.y == self.end.y {
+            self.complete = true;
+            return Some(f_curr_value(self));
+        }
+
+        let ret = f_curr_value(self);
+        f_next(self);
+        Some(ret)
+    }
 }
 
 impl<T> Iterator for RangeIter<T>
 where
-    T: Step + Default + PartialOrd + Copy,
+    T: Step,
 {
     type Item = Coordinate<T>;
 
     fn next(&mut self) -> Option<Self::Item> {
-        if self.start.x > self.end.y || self.start.x == self.end.x && self.start.x >= self.end.y {
-            return None;
-        }
-        let ret = self.start;
-        if !self.start.y.step(self.max.y) {
-            if !self.start.x.step(self.max.x) {
-                return None;
-            }
-            self.start.y = T::default();
-        }
-        Some(ret)
+        self.next_internal(
+            |s| s.start,
+            |s| {
+                if !s.start.y.step(s.max.y) {
+                    if !s.start.x.step(s.max.x) {
+                        unreachable!("end value is larger then max value")
+                    }
+                    s.start.y = s.min.y;
+                }
+            },
+        )
     }
 }
 
 impl<T> DoubleEndedIterator for RangeIter<T>
 where
-    T: Step + Default + PartialOrd + Copy,
+    T: Step,
 {
     fn next_back(&mut self) -> Option<Self::Item> {
-        if !self.end.y.step_back() {
-            if !self.end.x.step_back() {
-                return None;
-            }
-            self.end.y = self.max.y;
-        }
-
-        if self.start.x > self.end.y || self.start.x == self.end.x && self.start.x > self.end.y {
-            return None;
-        }
-
-        Some(self.end)
+        self.next_internal(
+            |s| s.end,
+            |s| {
+                if !s.end.y.step_back(s.min.y) {
+                    if !s.end.x.step_back(s.min.x) {
+                        unreachable!("start value is smaller then min value")
+                    }
+                    s.end.y = s.max.y;
+                    s.end.y.step_back(s.min.y);
+                }
+            },
+        )
     }
 }
 
-pub trait Step {
+pub trait Step: Default + Copy + PartialOrd {
     fn step(&mut self, max: Self) -> bool;
-    fn step_back(&mut self) -> bool;
+    fn step_back(&mut self, min: Self) -> bool;
 }
 
 impl Step for usize {
@@ -318,8 +339,8 @@ impl Step for usize {
         true
     }
 
-    fn step_back(&mut self) -> bool {
-        if *self == 0 {
+    fn step_back(&mut self, min: Self) -> bool {
+        if *self <= min {
             return false;
         }
         *self -= 1;

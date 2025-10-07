@@ -1,8 +1,8 @@
 use crate::common::{Coordinate, Grid};
 use std::fmt::{Debug, Formatter};
 
-pub fn solve_sudoku(outer_board: &mut Vec<Vec<char>>) {
-    let mut board = Grid::<char>::from(&*outer_board).map(|v| match v {
+pub fn solve_sudoku(#[allow(clippy::ptr_arg)] outer_board: &mut Vec<Vec<char>>) {
+    let mut board = Grid::<char>::from(outer_board.clone()).map(|v| match v {
         '.' => None,
         c @ '1'..='9' => Some(c.to_string().parse::<u8>().unwrap()),
         _ => panic!("invalid input"),
