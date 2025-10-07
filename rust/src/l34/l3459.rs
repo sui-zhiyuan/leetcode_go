@@ -32,18 +32,16 @@ pub fn len_of_v_diagonal(grid: Vec<Vec<i32>>) -> i32 {
     // println!("first round");
     // print_move(&max_move);
 
-    for x in 0..grid.size().x {
-        for y in 0..grid.size().y {
-            let mut turned = [0; 4];
-            for (i, v) in turned.iter_mut().enumerate() {
-                *v = if i == 0 {
-                    max_move[(x, y)][3]
-                } else {
-                    max_move[(x, y)][i - 1]
-                }
+    for c in grid.size().iter() {
+        let mut turned = [0; 4];
+        for (i, v) in turned.iter_mut().enumerate() {
+            *v = if i == 0 {
+                max_move[c][3]
+            } else {
+                max_move[c][i - 1]
             }
-            max_move[(x, y)] = turned;
         }
+        max_move[c] = turned;
     }
 
     // println!("turned");
@@ -55,7 +53,7 @@ pub fn len_of_v_diagonal(grid: Vec<Vec<i32>>) -> i32 {
         }
     }
 
-    for c in grid.size().iter() {
+    for c in grid.size().iter().rev() {
         for (i, d) in DIRECTIONS.iter().enumerate().filter(|(_, d)| d.x < 0) {
             update_length(&grid, &mut max_move, (i, d), c)
         }
@@ -64,16 +62,7 @@ pub fn len_of_v_diagonal(grid: Vec<Vec<i32>>) -> i32 {
     // println!("second round");
     // print_move(&max_move);
 
-    let mut max_step = 0;
-    for x in (0..grid.size().x).rev() {
-        for y in 0..grid.size().y {
-            for (i, _d) in DIRECTIONS.iter().enumerate() {
-                max_step = max_step.max(max_move[(x, y)][i]);
-            }
-        }
-    }
-
-    max_step
+    max_move.iter().flatten().max().copied().unwrap()
 }
 
 fn update_length(
