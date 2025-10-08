@@ -135,11 +135,11 @@ def show_in_vscode(text: str):
         stderr=subprocess.PIPE,
         shell=True,
     )
-    process.communicate(text.encode())
+    process.communicate(text.encode(encoding="gbk"))
 
 
 def main():
-    text = normal_input_path().read_text()
+    text = normal_input_path().read_text(encoding="UTF-8")
     text = process_code(text)
     show_in_vscode(text)
 

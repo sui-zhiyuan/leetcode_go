@@ -5,11 +5,15 @@ pub fn avoid_flood(rains: Vec<i32>) -> Vec<i32> {
     let mut last_rain = HashMap::<i32, usize>::new();
 
     let mut drain = vec![-1; rains.len()];
+    // 等效 并查集
+    let mut next_available_drain = vec![0; rains.len()];
 
     for (day, &lake) in rains.iter().enumerate() {
         if lake == 0 {
+            next_available_drain[day] = day;
             continue;
         }
+        next_available_drain[day] = day + 1;
         let mut occupied = match last_rain.entry(lake) {
             Entry::Vacant(v) => {
                 v.insert(day);
@@ -18,19 +22,31 @@ pub fn avoid_flood(rains: Vec<i32>) -> Vec<i32> {
             Entry::Occupied(o) => o,
         };
 
+        let mut available_day = *occupied.get();
+        let mut checked_days = Vec::new();
         let mut found = false;
-        for drain_day in *occupied.get()..day {
-            if rains[drain_day] != 0 || drain[drain_day] != -1 {
-                continue;
+        checked_days.push(available_day);
+        // 防止预先构造执行下一天指针超限制
+        while available_day <= day {
+            let next_day = next_available_drain[available_day];
+            checked_days.push(next_day);
+            if next_day == available_day {
+                available_day = next_day;
+                found = true;
+                break;
             }
-            drain[drain_day] = lake;
-            found = true;
-            break;
+            available_day = next_day;
         }
 
         if !found {
             return vec![];
         }
+
+        drain[available_day] = lake;
+        for c in checked_days {
+            next_available_drain[c] = available_day + 1;
+        }
+
         occupied.insert(day);
     }
 
