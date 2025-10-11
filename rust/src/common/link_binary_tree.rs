@@ -170,8 +170,16 @@ where
     T: std::str::FromStr,
     <T as std::str::FromStr>::Err: std::fmt::Debug,
 {
+    if input == "[]" {
+        return vec![None];
+    }
+
     input
         .trim()
+        .strip_prefix("[")
+        .expect("NoPrefixOfSlice")
+        .strip_suffix("]")
+        .expect("NoAppendixOfSlice")
         .split(',')
         .map(|s| {
             let s = s.trim();
