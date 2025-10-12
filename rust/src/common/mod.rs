@@ -11,6 +11,7 @@ mod binary_search;
 pub mod sort;
 pub mod error;
 mod parameter_test_macro;
+mod prime_list;
 
 pub use flyweight::Flyweight;
 pub use link_binary_tree::TreeNode;
@@ -22,6 +23,7 @@ pub use extend_vec::ExtendVec;
 pub use grid::Grid;
 pub use grid::Coordinate;
 pub use binary_search::binary_search;
+pub use prime_list::prime_list;
 
 pub use error::Error;
 pub use error::Result;

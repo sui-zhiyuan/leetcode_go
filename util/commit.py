@@ -31,6 +31,7 @@ replacements = [
     Replacement("use crate::common::Coordinate;", "grid.rs"),
     Replacement("use crate::common::{Coordinate, Grid};", "grid.rs"),
     Replacement("use crate::common::binary_search;", "binary_search.rs"),
+    Replacement("use crate::common::prime_list;", "prime_list.rs"),
 ]
 
 root = None
