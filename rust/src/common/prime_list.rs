@@ -33,7 +33,7 @@ pub fn prime_list(max: i32) -> Vec<i32> {
 #[cfg(test)]
 mod tests {
     use super::*;
-
+    
     #[test]
     fn test() {
         let primes = vec![2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47];

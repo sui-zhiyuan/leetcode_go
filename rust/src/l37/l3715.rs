@@ -1,17 +1,14 @@
-use crate::common::prime_list;
 use std::collections::HashMap;
 
-pub fn sum_of_ancestors(n: i32, edges: Vec<Vec<i32>>, nums: Vec<i32>) -> i64 {
+pub fn sum_of_ancestors(_n: i32, edges: Vec<Vec<i32>>, nums: Vec<i32>) -> i64 {
     const MAX_VALUE: i32 = 100009;
-    let primes = prime_list(MAX_VALUE);
-
-    assert_eq!(n as usize, nums.len());
+    let square_remain = get_square_remain(MAX_VALUE as usize);
 
     let mut graph = nums
         .iter()
         .map(|&v| Node {
             edges: vec![],
-            value: square_remain(&primes, v),
+            value: square_remain[v as usize] as i32,
         })
         .collect::<Vec<_>>();
 
@@ -62,32 +59,31 @@ fn dfs(ctx: &Ctx, visited: &mut HashMap<i32, i64>, curr: usize, parent: usize) -
     count
 }
 
-fn square_remain(primes: &[i32], v: i32) -> i32 {
-    let mut v = v;
-    for &p in primes {
-        let Some(ps) = p.checked_mul(p) else {
+fn get_square_remain(max: usize) -> Vec<usize> {
+    let mut square_remain = vec![0; max + 1];
+
+    for i in 1..=max {
+        if square_remain[i] != 0 {
             continue;
-        };
-        while v % ps == 0 {
-            v /= ps;
+        }
+
+        for j in 1..=max {
+            let pow = i.saturating_mul(j).saturating_mul(j);
+            if pow >= square_remain.len() {
+                break;
+            }
+            square_remain[pow] = i;
         }
     }
-    v
+
+    square_remain
 }
 
 #[cfg(test)]
 pub mod tests {
     use super::*;
-    use crate::common::{parse_grid, prime_list};
+    use crate::common::parse_grid;
     use crate::parameter_tests;
-
-    #[test]
-    fn prime_count() {
-        let n = prime_list(100009);
-
-        assert!(1200 * 8 > n.len());
-        println!("{}", n.len())
-    }
 
     struct Case {
         n: i32,
