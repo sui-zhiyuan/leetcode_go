@@ -1,5 +1,5 @@
 pub fn smallest_number(n: i32) -> i32 {
-    let first_one = size_of::<i32>() * 8 - n.leading_zeros() as usize;
+    let first_one = i32::BITS as usize - n.leading_zeros() as usize;
     (1 << first_one) - 1
 }
 

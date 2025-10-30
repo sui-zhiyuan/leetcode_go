@@ -32,9 +32,8 @@ pub fn count_coprime(mat: Vec<Vec<i32>>) -> i32 {
     }
 
     let mut not_allow = 0i64;
-    for p in 0..160usize {
-        let ap_flag = primes_count[p];
-        if ap_flag == 0 {
+    for (p, &p_count) in primes_count.iter().enumerate() {
+        if p_count == 0 {
             continue;
         }
 
@@ -49,7 +48,7 @@ pub fn count_coprime(mat: Vec<Vec<i32>>) -> i32 {
         //     println!("{} {}" , p , current)
         // }
 
-        if ap_flag % 2 == 1 {
+        if p_count % 2 == 1 {
             not_allow = (not_allow + current) % MOD;
         } else {
             not_allow = (not_allow + MOD - current) % MOD;
