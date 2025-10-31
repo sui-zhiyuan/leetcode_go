@@ -11,6 +11,6 @@ pub fn remove_zeros(n: i64) -> i64 {
             dig *= 10;
         }
     }
-    
+
     result
 }
