@@ -1,8 +1,6 @@
-use std::{
-    cell::RefCell,
-    collections::{HashMap, VecDeque},
-    ops::Add,
-};
+use std::cell::RefCell;
+use std::collections::{HashMap, VecDeque};
+use std::ops::Add;
 
 pub fn max_moves(kx: i32, ky: i32, positions: Vec<Vec<i32>>) -> i32 {
     let mut pos = vec![Square::new(kx, ky)];
@@ -40,29 +38,22 @@ fn dfs(ctx: &Context, visited: u64, curr: usize, state: State) -> i32 {
         return result;
     }
 
-    let all_visitable = (0..ctx.distances.len())
-        .filter(|&i| visited & (1 << i) == 0)
-        .map(|i| (i, ctx.distances[curr][i]));
-    let target = match state {
-        State::FindMax => all_visitable.max_by_key(|&(_, d)| d).unwrap(),
-        State::FindMin => all_visitable.min_by_key(|&(_, d)| d).unwrap(),
+    let mut result = match state {
+        State::FindMax => 0,
+        State::FindMin => i32::MAX,
     };
-        
-    // for i in 0..ctx.distances.len() {
-    //     if visited & (1 << i) != 0 {
-    //         continue;
-    //     }
+    for i in 0..ctx.distances.len() {
+        if visited & (1 << i) != 0 {
+            continue;
+        }
 
-    //     let new_visited = visited | (1 << i);
-    //     let value = ctx.distances[curr][i] + dfs(ctx, new_visited, i, state.other());
-    //     result = match state {
-    //         State::FindMax => result.max(value),
-    //         State::FindMin => result.min(value),
-    //     };
-    // }
-
-    let new_visited = visited | (1 << target.0);
-    let result = target.1 + dfs(ctx, new_visited, target.0, state.other());
+        let new_visited = visited | (1 << i);
+        let value = ctx.distances[curr][i] + dfs(ctx, new_visited, i, state.other());
+        result = match state {
+            State::FindMax => result.max(value),
+            State::FindMin => result.min(value),
+        };
+    }
 
     ctx.cache.borrow_mut().insert((curr, visited), result);
     result
