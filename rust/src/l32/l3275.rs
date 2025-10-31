@@ -1,5 +1,7 @@
+use std::collections::BinaryHeap;
+
 pub fn results_array(queries: Vec<Vec<i32>>, k: i32) -> Vec<i32> {
-    let mut heap = std::collections::BinaryHeap::new();
+    let mut heap = BinaryHeap::new();
 
     let mut count = 0;
     let mut result = Vec::new();
