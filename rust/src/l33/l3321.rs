@@ -1,34 +1,65 @@
-use std::collections::HashMap;
+use std::collections::{BTreeSet, HashMap};
 
 pub fn find_x_sum(nums: Vec<i32>, k: i32, x: i32) -> Vec<i64> {
     let k = k as usize;
     let x = x as usize;
-    let mut count = HashMap::<i32 , i32>::new();
+    let mut counts = HashMap::<i32, i32>::new();
+    let mut sort_count = BTreeSet::<ValueCount>::new();
+    let mut sum = 0i64;
 
-    for &v in nums[0..k-1].iter(){
-        *count.entry(v).or_insert(0) += 1;
+    for &v in nums[0..k - 1].iter() {
+        *counts.entry(v).or_insert(0) += 1;
+        sum += v as i64;
     }
 
-    let mut res = Vec::<i64>::new();
-    for i in k-1..nums.len(){
-        *count.entry(nums[i]).or_insert(0) += 1;
-        let mut count_list: Vec<(i32, i32)> = count.iter().map(|(&value , &count)| (value, count)).collect();
-        count_list.sort_by(|a, b| a.1.cmp(&b.1).then_with(||a.0.cmp(&b.0)).reverse());
-        res.push(count_list[..x.min(count_list.len())].iter().map(|v| v.0 as i64 * v.1 as i64).sum::<i64>());
-        let start = i + 1 - k ;
-        *count.get_mut(&nums[start]).unwrap() -= 1;
+    for (&num, &count) in counts.iter() {
+        sort_count.insert(ValueCount { count, num });
     }
 
-    res
+    let mut result = Vec::<i64>::new();
+    for i in k - 1..nums.len() {
+        let count = counts.entry(nums[i]).or_insert(0);
+        _ = sort_count.remove(&ValueCount {
+            count: *count,
+            num: nums[i],
+        });
+        *count += 1;
+        _ = sort_count.insert(ValueCount {
+            count: *count,
+            num: nums[i],
+        });
+        sum += nums[i] as i64;
+
+        let removed_num = nums[i - k];
+        let count = counts.entry(removed_num).or_insert(0);
+        _ = sort_count.remove(&ValueCount {
+            count: *count,
+            num: removed_num,
+        });
+        *count -= 1;
+        _ = sort_count.insert(ValueCount {
+            count: *count,
+            num: nums[i],
+        });
+        sum -= removed_num as i64;
+    }
+
+    result
+}
+
+#[derive(Ord, PartialOrd, Eq, PartialEq, Hash, Clone, Copy, Debug)]
+struct ValueCount {
+    count: i32,
+    num: i32,
 }
 
 #[cfg(test)]
-mod tests{
+mod tests {
     use super::*;
 
     #[test]
-    fn test1(){
-        let nums = vec![1,1,2,2,3,4,2,3];
+    fn test1() {
+        let nums = vec![1, 1, 2, 2, 3, 4, 2, 3];
         let k = 6;
         let x = 2;
         let res = find_x_sum(nums, k, x);
@@ -36,8 +67,8 @@ mod tests{
     }
 
     #[test]
-    fn test2(){
-        let nums = vec![9,2,2];
+    fn test2() {
+        let nums = vec![9, 2, 2];
         let k = 3;
         let x = 3;
         let res = find_x_sum(nums, k, x);
