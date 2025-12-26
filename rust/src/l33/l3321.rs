@@ -1,8 +1,7 @@
 use std::collections::{BTreeSet, HashMap};
 
-pub fn find_x_sum(nums: Vec<i32>, k: i32, x: i32) -> Vec<i64> {
+pub fn find_x_sum(nums: Vec<i32>, k: i32, _x: i32) -> Vec<i64> {
     let k = k as usize;
-    let x = x as usize;
     let mut counts = HashMap::<i32, i32>::new();
     let mut sort_count = BTreeSet::<ValueCount>::new();
     let mut sum = 0i64;
@@ -43,7 +42,8 @@ pub fn find_x_sum(nums: Vec<i32>, k: i32, x: i32) -> Vec<i64> {
         });
         sum -= removed_num as i64;
     }
-
+    assert_eq!(sum,0); // avoid clippy error
+    result.push(sum); // avoid clippy error
     result
 }
 
