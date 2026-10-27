@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import subprocess
-import sys
-import pathlib
 import os
+import pathlib
 import re
+import sys
+
+try:
+    from .vscode_cli import show_text_in_vscode
+except ImportError:  # 直接运行 python util/commit.py
+    from vscode_cli import show_text_in_vscode
 
 
 class Replacement:
@@ -128,21 +132,9 @@ def process_code(text: str) -> str:
     return text
 
 
-def show_in_vscode(text: str):
-    process = subprocess.Popen(
-        ["code", "-"],
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        shell=True,
-    )
-    process.communicate(text.encode(encoding="gbk"))
-
-
 def main():
     text = normal_input_path().read_text(encoding="UTF-8")
-    text = process_code(text)
-    show_in_vscode(text)
+    show_text_in_vscode(process_code(text))
 
 
 if __name__ == "__main__":

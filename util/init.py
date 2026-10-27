@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import pathlib
 import os
-import subprocess
+import pathlib
 import sys
+
+try:
+    from .vscode_cli import open_in_vscode
+except ImportError:  # 直接运行 python util/init.py
+    from vscode_cli import open_in_vscode
 
 curr = os.path.abspath(__file__)
 root = pathlib.Path(curr).parent.parent.resolve()
@@ -46,4 +50,4 @@ src_file = pathlib.Path(root, "rust", "src", mod, file + ".rs")
 if not src_file.exists():
     src_file.touch()
 
-subprocess.run(["code", str(src_file)], shell=True)
+open_in_vscode(src_file)
