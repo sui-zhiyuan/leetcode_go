@@ -1,6 +1,7 @@
 use std::iter::once;
 
 pub fn best_closing_time(customers: String) -> i32 {
+    #[allow(unused)]
     let n = customers.chars().count();
     let sum_y = customers.chars().filter(|c| *c == 'Y').count();
 

@@ -38,12 +38,7 @@ impl<T> TreeNode<T> {
         let root = nums[0].take().and_then(|v| Self::new_node(v, None, None));
         let mut nums = &mut nums[1..];
         let mut queue = LinkedList::new();
-        match root {
-            Some(ref root) => {
-                queue.push_back(root.clone());
-            }
-            None => return None,
-        }
+        queue.push_back(root.clone()?);
 
         while !queue.is_empty() {
             let parent = queue.pop_front().unwrap();

@@ -9,3 +9,7 @@ edition = "2021"
 approx = "0.5.1"
 rand = "0.8.5"
 thiserror = "1.0.59"
+
+[lints.clippy]
+# 算法题解以显式下标表达
+needless_range_loop = "allow"

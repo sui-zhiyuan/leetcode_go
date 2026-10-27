@@ -19,7 +19,7 @@ struct Movie {
 impl Movie {
     fn from_vec(m: Vec<i32>) -> Movie {
         let &[shop_id, movie_id, price] = &m[..] else {
-            panic!("invalid input {:?} , length should equal to 3", &m)
+            panic!("invalid input {:?} , length should equal to 3", m)
         };
 
         Movie {
